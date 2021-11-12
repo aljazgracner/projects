@@ -6,6 +6,7 @@ class Controller {
   playTicTac = this.playTicTacToe.bind(this);
   replayTicTac = this.replayTicTacToe.bind(this);
   playAgainTicTac = this.playAgainTicTacToe.bind(this);
+  _loadTicTacStateWithWinner = this._loadTicTacToeStateWithWinner.bind(this);
 
   constructor() {
     navigationView.addHoverEventHandlers(navigationView.hoverFunction);
@@ -14,7 +15,12 @@ class Controller {
 
   showContent() {
     ticTacToeView.renderContent(navigationView.clickedContent);
-    ticTacToeView.addClickEventHandler(this.playTicTac);
+    ticTacToeView.loadSave(ticTacModule);
+    if (ticTacModule.winner) this._loadTicTacStateWithWinner();
+    if (!ticTacModule.winner) {
+      ticTacToeView.highlightActivePlayer(ticTacModule.activePlayer);
+      ticTacToeView.addClickEventHandler(this.playTicTac);
+    }
     ticTacToeView.addHoverHandler(ticTacToeView.hoverFunction);
   }
 
@@ -25,25 +31,24 @@ class Controller {
       ticTacModule.changeActivePlayer();
       ticTacModule.checkForWinner();
 
-      if (ticTacModule.winner) {
-        console.log(ticTacModule.winningNumbers);
-        ticTacToeView.renderWinner(
-          ticTacModule.winner,
-          ticTacModule.winningNumbers
-        );
-        ticTacToeView.removeClickEventHandler(this.playTicTac);
-        ticTacToeView.addReplayButtonHoverEvent(
-          ticTacToeView.replayButtonHoverFunction
-        );
-        ticTacToeView.addReplayButtonClickEvent(this.replayTicTacToe);
-        ticTacToeView.addPlayAgainHoverEvent(
-          ticTacToeView.playAgainHoverFunction
-        );
-        ticTacToeView.addPlayAgainClickEvent(this.playAgainTicTac);
-      }
+      if (ticTacModule.winner) this._loadTicTacStateWithWinner();
       if (!ticTacModule.winner)
         ticTacToeView.highlightActivePlayer(ticTacModule.activePlayer);
     }
+  }
+
+  _loadTicTacToeStateWithWinner() {
+    ticTacToeView.renderWinner(
+      ticTacModule.winner,
+      ticTacModule.winningNumbers
+    );
+    ticTacToeView.removeClickEventHandler(this.playTicTac);
+    ticTacToeView.addReplayButtonHoverEvent(
+      ticTacToeView.replayButtonHoverFunction
+    );
+    ticTacToeView.addReplayButtonClickEvent(this.replayTicTacToe);
+    ticTacToeView.addPlayAgainHoverEvent(ticTacToeView.playAgainHoverFunction);
+    ticTacToeView.addPlayAgainClickEvent(this.playAgainTicTac);
   }
 
   replayTicTacToe() {

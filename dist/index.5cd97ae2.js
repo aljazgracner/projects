@@ -470,13 +470,19 @@ class Controller {
     playTicTac = this.playTicTacToe.bind(this);
     replayTicTac = this.replayTicTacToe.bind(this);
     playAgainTicTac = this.playAgainTicTacToe.bind(this);
+    _loadTicTacStateWithWinner = this._loadTicTacToeStateWithWinner.bind(this);
     constructor(){
         _navViewJsDefault.default.addHoverEventHandlers(_navViewJsDefault.default.hoverFunction);
         _navViewJsDefault.default.addClickHandler(this.showContent.bind(this));
     }
     showContent() {
         _ticTacToeViewJsDefault.default.renderContent(_navViewJsDefault.default.clickedContent);
-        _ticTacToeViewJsDefault.default.addClickEventHandler(this.playTicTac);
+        _ticTacToeViewJsDefault.default.loadSave(_ticTacModuleJsDefault.default);
+        if (_ticTacModuleJsDefault.default.winner) this._loadTicTacStateWithWinner();
+        if (!_ticTacModuleJsDefault.default.winner) {
+            _ticTacToeViewJsDefault.default.highlightActivePlayer(_ticTacModuleJsDefault.default.activePlayer);
+            _ticTacToeViewJsDefault.default.addClickEventHandler(this.playTicTac);
+        }
         _ticTacToeViewJsDefault.default.addHoverHandler(_ticTacToeViewJsDefault.default.hoverFunction);
     }
     playTicTacToe(clickedBox) {
@@ -485,17 +491,17 @@ class Controller {
             _ticTacModuleJsDefault.default.updateBoardState(clickedBox);
             _ticTacModuleJsDefault.default.changeActivePlayer();
             _ticTacModuleJsDefault.default.checkForWinner();
-            if (_ticTacModuleJsDefault.default.winner) {
-                console.log(_ticTacModuleJsDefault.default.winningNumbers);
-                _ticTacToeViewJsDefault.default.renderWinner(_ticTacModuleJsDefault.default.winner, _ticTacModuleJsDefault.default.winningNumbers);
-                _ticTacToeViewJsDefault.default.removeClickEventHandler(this.playTicTac);
-                _ticTacToeViewJsDefault.default.addReplayButtonHoverEvent(_ticTacToeViewJsDefault.default.replayButtonHoverFunction);
-                _ticTacToeViewJsDefault.default.addReplayButtonClickEvent(this.replayTicTacToe);
-                _ticTacToeViewJsDefault.default.addPlayAgainHoverEvent(_ticTacToeViewJsDefault.default.playAgainHoverFunction);
-                _ticTacToeViewJsDefault.default.addPlayAgainClickEvent(this.playAgainTicTac);
-            }
+            if (_ticTacModuleJsDefault.default.winner) this._loadTicTacStateWithWinner();
             if (!_ticTacModuleJsDefault.default.winner) _ticTacToeViewJsDefault.default.highlightActivePlayer(_ticTacModuleJsDefault.default.activePlayer);
         }
+    }
+    _loadTicTacToeStateWithWinner() {
+        _ticTacToeViewJsDefault.default.renderWinner(_ticTacModuleJsDefault.default.winner, _ticTacModuleJsDefault.default.winningNumbers);
+        _ticTacToeViewJsDefault.default.removeClickEventHandler(this.playTicTac);
+        _ticTacToeViewJsDefault.default.addReplayButtonHoverEvent(_ticTacToeViewJsDefault.default.replayButtonHoverFunction);
+        _ticTacToeViewJsDefault.default.addReplayButtonClickEvent(this.replayTicTacToe);
+        _ticTacToeViewJsDefault.default.addPlayAgainHoverEvent(_ticTacToeViewJsDefault.default.playAgainHoverFunction);
+        _ticTacToeViewJsDefault.default.addPlayAgainClickEvent(this.playAgainTicTac);
     }
     replayTicTacToe() {
         _ticTacToeViewJsDefault.default.removeMarks(_ticTacModuleJsDefault.default.boardState[2]);
@@ -641,18 +647,21 @@ class TicTacToeView extends _viewJsDefault.default {
             document.getElementById(e).innerHTML = "";
         });
     }
-    createMark(clickedBox1, activePlayer, replayArray1, boxNumbers) {
-        if (!replayArray1) clickedBox1.target.closest("div").insertAdjacentHTML("afterbegin", activePlayer);
+    loadSave(save) {
+        this.createMark(null, null, save.boardState[2], save.boxNumbers, false);
+    }
+    createMark(clickedBox1, activePlayer, replayArray1, boxNumbers, replay = true) {
+        if (!replayArray1 && clickedBox1) clickedBox1.target.closest("div").insertAdjacentHTML("afterbegin", activePlayer);
         if (replayArray1) (async ()=>{
-            this.highlightTicTacBoxOnOff(boxNumbers);
+            boxNumbers && this.highlightTicTacBoxOnOff(boxNumbers);
             let crossCircle = "X";
             for (const x of replayArray1){
-                await _helpersJs.timeout(0.5);
+                replay && await _helpersJs.timeout(0.5);
                 const box = document.getElementById(x);
                 if (box.innerHTML == "") box.insertAdjacentHTML("afterbegin", crossCircle);
                 crossCircle == "X" ? crossCircle = "O" : crossCircle = "X";
             }
-            this.highlightTicTacBoxOnOff(boxNumbers);
+            boxNumbers && this.highlightTicTacBoxOnOff(boxNumbers);
         })();
     }
     highlightActivePlayer(player) {
@@ -858,8 +867,8 @@ class Module {
                     ...winningNumbers, 
                 ]);
                 this.winner = "Player 2";
-                return;
             }
+            if (this.boardState[2].length == 9) this.winner = "Nobody";
         });
     }
     changeActivePlayer() {

@@ -38,8 +38,8 @@ class Module {
           ...winningNumbers,
         ]);
         this.winner = "Player 2";
-        return;
       }
+      if (this.boardState[2].length == 9) this.winner = "Nobody";
     });
   }
   changeActivePlayer() {

@@ -63,24 +63,28 @@ class TicTacToeView extends View {
     });
   }
 
-  createMark(clickedBox, activePlayer, replayArray, boxNumbers) {
-    if (!replayArray) {
+  loadSave(save) {
+    this.createMark(null, null, save.boardState[2], save.boxNumbers, false);
+  }
+
+  createMark(clickedBox, activePlayer, replayArray, boxNumbers, replay = true) {
+    if (!replayArray && clickedBox) {
       clickedBox.target
         .closest("div")
         .insertAdjacentHTML("afterbegin", activePlayer);
     }
     if (replayArray) {
       (async () => {
-        this.highlightTicTacBoxOnOff(boxNumbers);
+        boxNumbers ? this.highlightTicTacBoxOnOff(boxNumbers) : "";
         let crossCircle = "X";
         for (const x of replayArray) {
-          await timeout(0.5);
+          replay ? await timeout(0.5) : "";
           const box = document.getElementById(x);
           if (box.innerHTML == "")
             box.insertAdjacentHTML("afterbegin", crossCircle);
           crossCircle == "X" ? (crossCircle = "O") : (crossCircle = "X");
         }
-        this.highlightTicTacBoxOnOff(boxNumbers);
+        boxNumbers ? this.highlightTicTacBoxOnOff(boxNumbers) : "";
       })();
     }
   }
