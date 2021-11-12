@@ -29,7 +29,8 @@ class Module {
           ...winningNumbers,
         ]);
         this.winner = "Player 1";
-      } else if (
+      }
+      if (
         winningNumbers.every((number) => this.boardState[1].includes(number))
       ) {
         this.winningNumbers = new Set([
@@ -37,7 +38,9 @@ class Module {
           ...winningNumbers,
         ]);
         this.winner = "Player 2";
-      } else if (this.boardState[2].length == 9) this.winner = "Nobody";
+      }
+      if (this.boardState[2].length == 9 && !this.winner)
+        this.winner = "Nobody";
     });
   }
   changeActivePlayer() {
