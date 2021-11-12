@@ -97,8 +97,6 @@ a {
   height: 400px;
   transform: translateY(-408px);
   margin-left: 500px;
-
-  border: 1px solid black;
 }
 
 .tic-tac-player-box {
