@@ -580,7 +580,7 @@ exports.export = function(dest, destName, get) {
 },{}],"1pGiH":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _viewJs = require("./View.js");
+var _viewJs = require("./view.js");
 var _viewJsDefault = parcelHelpers.interopDefault(_viewJs);
 var _helpersJs = require("../helpers.js");
 class TicTacToeView extends _viewJsDefault.default {
@@ -752,7 +752,17 @@ class TicTacToeView extends _viewJsDefault.default {
 }
 exports.default = new TicTacToeView();
 
-},{"./View.js":"4WQvr","../helpers.js":"l5Gvl","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"4WQvr":[function(require,module,exports) {
+},{"../helpers.js":"l5Gvl","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV","./view.js":"6RF1J"}],"l5Gvl":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "timeout", ()=>timeout
+);
+const timeout = async function(seconds) {
+    await new Promise((resolve)=>setTimeout(resolve, seconds * 1000)
+    );
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"6RF1J":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class View {
@@ -766,16 +776,6 @@ class View {
     }
 }
 exports.default = View;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"l5Gvl":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "timeout", ()=>timeout
-);
-const timeout = async function(seconds) {
-    await new Promise((resolve)=>setTimeout(resolve, seconds * 1000)
-    );
-};
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"4MaQF":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

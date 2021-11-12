@@ -1,4 +1,4 @@
-import View from "./View.js";
+import View from "./view.js";
 import { timeout } from "../helpers.js";
 
 class TicTacToeView extends View {
