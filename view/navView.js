@@ -19,14 +19,13 @@ class NavigationView {
   }
 
   addClickHandler(fn) {
-    this._navigation.addEventListener("click", function (click) {
-      fn(click.target);
-    });
+    this._navigation.addEventListener("click", fn);
   }
 
   checkClickedContent(clickEvent) {
-    if (clickEvent.closest("menu-option") == "undefined") return;
-    return clickEvent.closest(".menu-option").querySelector("span").textContent;
+    if (clickEvent.target.closest("div").classList.contains("menu-option"))
+      return true;
+    return false;
   }
 }
 

@@ -12,36 +12,31 @@ body {
 
 .menu {
   background: black;
-  display: grid;
-  grid-template-columns: 400px 200px;
-  max-height: 70px;
+  display: inline-block;
+  height: 50px;
   width: 100%;
   position: absolute;
   background-image: linear-gradient(to right, rgb(69, 98, 143), rgb(2, 34, 71));
 }
 
-.profile-pic {
-  border: 1px solid #2e4052;
-  border-radius: 10px 10px 10px 10px;
-  margin-left: 100px;
-  margin-top: 3px;
+.title {
   display: inline-block;
-  width: 54px;
-  height: 60px;
+  margin: auto;
+  margin-left: 50px;
+  font-size: 30px;
+  color: #fff;
+}
+.logo {
+  transform: translateY(3px);
+  font-size: 30px;
 }
 
 .menu-option {
   margin: auto;
   transition: 300ms;
-}
-
-.name {
   display: inline-block;
-  transform: translateY(-20px);
-  font-size: 30px;
-  margin-left: 5px;
+  margin-left: 150px;
 }
-
 .menu a {
   text-decoration: none;
 }

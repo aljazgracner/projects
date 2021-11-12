@@ -89,7 +89,7 @@ class TicTacToeView extends View {
     }
   }
 
-  highlightActivePlayer(player) {
+  changeActivePlayer(player) {
     const player1 = document.querySelector(".player-1");
     const player2 = document.querySelector(".player-2");
     if (player == "X") {

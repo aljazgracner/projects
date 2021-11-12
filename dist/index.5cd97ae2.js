@@ -475,15 +475,17 @@ class Controller {
         _navViewJsDefault.default.addHoverEventHandlers(_navViewJsDefault.default.hoverFunction);
         _navViewJsDefault.default.addClickHandler(this.showContent.bind(this));
     }
-    showContent() {
-        _ticTacToeViewJsDefault.default.renderContent(_navViewJsDefault.default.clickedContent);
-        _ticTacToeViewJsDefault.default.loadSave(_ticTacModuleJsDefault.default);
-        if (_ticTacModuleJsDefault.default.winner) this._loadTicTacStateWithWinner();
-        if (!_ticTacModuleJsDefault.default.winner) {
-            _ticTacToeViewJsDefault.default.highlightActivePlayer(_ticTacModuleJsDefault.default.activePlayer);
-            _ticTacToeViewJsDefault.default.addClickEventHandler(this.playTicTac);
+    showContent(event) {
+        if (_navViewJsDefault.default.checkClickedContent(event)) {
+            _ticTacToeViewJsDefault.default.renderContent();
+            _ticTacToeViewJsDefault.default.loadSave(_ticTacModuleJsDefault.default);
+            if (_ticTacModuleJsDefault.default.winner) this._loadTicTacStateWithWinner();
+            if (!_ticTacModuleJsDefault.default.winner) {
+                _ticTacToeViewJsDefault.default.changeActivePlayer(_ticTacModuleJsDefault.default.activePlayer);
+                _ticTacToeViewJsDefault.default.addClickEventHandler(this.playTicTac);
+            }
+            _ticTacToeViewJsDefault.default.addHoverHandler(_ticTacToeViewJsDefault.default.hoverFunction);
         }
-        _ticTacToeViewJsDefault.default.addHoverHandler(_ticTacToeViewJsDefault.default.hoverFunction);
     }
     playTicTacToe(clickedBox) {
         if (_ticTacToeViewJsDefault.default.checkIfBoxEmpty(clickedBox)) {
@@ -492,7 +494,7 @@ class Controller {
             _ticTacModuleJsDefault.default.changeActivePlayer();
             _ticTacModuleJsDefault.default.checkForWinner();
             if (_ticTacModuleJsDefault.default.winner) this._loadTicTacStateWithWinner();
-            if (!_ticTacModuleJsDefault.default.winner) _ticTacToeViewJsDefault.default.highlightActivePlayer(_ticTacModuleJsDefault.default.activePlayer);
+            if (!_ticTacModuleJsDefault.default.winner) _ticTacToeViewJsDefault.default.changeActivePlayer(_ticTacModuleJsDefault.default.activePlayer);
         }
     }
     _loadTicTacToeStateWithWinner() {
@@ -511,7 +513,7 @@ class Controller {
         _ticTacToeViewJsDefault.default.removeMarks(_ticTacModuleJsDefault.default.boardState[2]);
         _ticTacToeViewJsDefault.default.highlightTicTacBoxOnOff(_ticTacModuleJsDefault.default.winningNumbers);
         _ticTacModuleJsDefault.default.resetGameState();
-        _ticTacToeViewJsDefault.default.highlightActivePlayer(_ticTacModuleJsDefault.default.activePlayer);
+        _ticTacToeViewJsDefault.default.changeActivePlayer(_ticTacModuleJsDefault.default.activePlayer);
         _ticTacToeViewJsDefault.default.addClickEventHandler(this.playTicTac);
         _ticTacToeViewJsDefault.default.removeButtons();
     }
@@ -542,13 +544,11 @@ class NavigationView {
         }
     }
     addClickHandler(fn1) {
-        this._navigation.addEventListener("click", function(click) {
-            fn1(click.target);
-        });
+        this._navigation.addEventListener("click", fn1);
     }
     checkClickedContent(clickEvent) {
-        if (clickEvent.closest("menu-option") == "undefined") return;
-        return clickEvent.closest(".menu-option").querySelector("span").textContent;
+        if (clickEvent.target.closest("div").classList.contains("menu-option")) return true;
+        return false;
     }
 }
 exports.default = new NavigationView();
@@ -664,7 +664,7 @@ class TicTacToeView extends _viewJsDefault.default {
             boxNumbers && this.highlightTicTacBoxOnOff(boxNumbers);
         })();
     }
-    highlightActivePlayer(player) {
+    changeActivePlayer(player) {
         const player1 = document.querySelector(".player-1");
         const player2 = document.querySelector(".player-2");
         if (player == "X") {
@@ -776,7 +776,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class View {
     _contentContainer = document.querySelector(".content-container");
-    renderContent(clickedOption) {
+    renderContent() {
         this._clearContentView();
         this._renderHTML();
     }

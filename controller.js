@@ -13,15 +13,17 @@ class Controller {
     navigationView.addClickHandler(this.showContent.bind(this));
   }
 
-  showContent() {
-    ticTacToeView.renderContent(navigationView.clickedContent);
-    ticTacToeView.loadSave(ticTacModule);
-    if (ticTacModule.winner) this._loadTicTacStateWithWinner();
-    if (!ticTacModule.winner) {
-      ticTacToeView.highlightActivePlayer(ticTacModule.activePlayer);
-      ticTacToeView.addClickEventHandler(this.playTicTac);
+  showContent(event) {
+    if (navigationView.checkClickedContent(event)) {
+      ticTacToeView.renderContent();
+      ticTacToeView.loadSave(ticTacModule);
+      if (ticTacModule.winner) this._loadTicTacStateWithWinner();
+      if (!ticTacModule.winner) {
+        ticTacToeView.changeActivePlayer(ticTacModule.activePlayer);
+        ticTacToeView.addClickEventHandler(this.playTicTac);
+      }
+      ticTacToeView.addHoverHandler(ticTacToeView.hoverFunction);
     }
-    ticTacToeView.addHoverHandler(ticTacToeView.hoverFunction);
   }
 
   playTicTacToe(clickedBox) {
@@ -33,7 +35,7 @@ class Controller {
 
       if (ticTacModule.winner) this._loadTicTacStateWithWinner();
       if (!ticTacModule.winner)
-        ticTacToeView.highlightActivePlayer(ticTacModule.activePlayer);
+        ticTacToeView.changeActivePlayer(ticTacModule.activePlayer);
     }
   }
 
@@ -65,7 +67,7 @@ class Controller {
     ticTacToeView.removeMarks(ticTacModule.boardState[2]);
     ticTacToeView.highlightTicTacBoxOnOff(ticTacModule.winningNumbers);
     ticTacModule.resetGameState();
-    ticTacToeView.highlightActivePlayer(ticTacModule.activePlayer);
+    ticTacToeView.changeActivePlayer(ticTacModule.activePlayer);
     ticTacToeView.addClickEventHandler(this.playTicTac);
     ticTacToeView.removeButtons();
   }

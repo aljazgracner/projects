@@ -1,7 +1,7 @@
 export default class View {
   _contentContainer = document.querySelector(".content-container");
 
-  renderContent(clickedOption) {
+  renderContent() {
     this._clearContentView();
     this._renderHTML();
   }
