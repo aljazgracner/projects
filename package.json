@@ -1,0 +1,14 @@
+{
+  "name": "ticatctoe",
+  "version": "1.0.0",
+  "description": "tictactoe with mvc",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "author": "Aljaz Gracner",
+  "license": "ISC",
+  "dependencies": {
+    "parcel": "^2.0.1"
+  }
+}
