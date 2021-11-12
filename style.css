@@ -67,7 +67,7 @@ a {
 .tic-tac-toe {
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
-  margin-left: 20%;
+  margin-left: 50px;
   margin-right: auto;
   margin-top: 150px;
   width: 400px;
@@ -89,12 +89,15 @@ a {
 }
 
 .tic-tac-player {
+  position: flex;
   display: grid;
   grid-template-rows: 33.3% 33.3% 33.3%;
-  margin: auto;
   width: 400px;
   height: 400px;
-  transform: translateY(-408px) translateX(50px);
+  transform: translateY(-408px);
+  margin-left: 500px;
+
+  border: 1px solid black;
 }
 .tic-tac-player-box {
   position: flex;
