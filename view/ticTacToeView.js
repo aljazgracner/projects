@@ -21,7 +21,11 @@ class TicTacToeView extends View {
                 <span class="turn">Active turn</span>
             </div>
             <div class="tic-tac-player-box win-msg"></div>
-            <div class="tic-tac-player-box play"></div>
+            <div class="tic-tac-player-box play"><a href=#>
+            <div class="play-again">
+                Reset
+            </div>
+        </a></div>
            </div>
         `;
     this._contentContainer.insertAdjacentHTML("afterbegin", markup);
@@ -111,19 +115,10 @@ class TicTacToeView extends View {
     const markup = `<span class="win-message">${player} wins!</span>
     <a href=#>
                         <div class="watch-replay">
-                            Watch replay here
+                            Watch replay
                         </div>
                     </a>`;
     document.querySelector(".win-msg").insertAdjacentHTML("afterbegin", markup);
-
-    const playAgainmarkup = ` <a href=#>
-    <div class="play-again">
-        Play again?
-    </div>
-</a>`;
-    document
-      .querySelector(".play")
-      .insertAdjacentHTML("afterbegin", playAgainmarkup);
 
     this.highlightTicTacBoxOnOff(boxNumbers);
   }
@@ -132,13 +127,6 @@ class TicTacToeView extends View {
     const button = document.querySelector(".watch-replay");
     ["mouseout", "mouseover"].forEach((e) => {
       button.addEventListener(e, fn);
-    });
-  }
-
-  removeReplayButtonHoverEvent(fn) {
-    const button = document.querySelector(".watch-replay");
-    ["mouseout", "mouseover"].forEach((e) => {
-      button.removeEventListener(e, fn);
     });
   }
 
@@ -158,13 +146,6 @@ class TicTacToeView extends View {
     });
   }
 
-  removePlayAgainHoverEvent(fn) {
-    const button = document.querySelector(".play-again");
-    ["mouseout", "mouseover"].forEach((e) => {
-      button.removeEventListener(e, fn);
-    });
-  }
-
   playAgainHoverFunction(event) {
     event.target.closest(".play-again").classList.toggle("replay-hover");
   }
@@ -176,10 +157,7 @@ class TicTacToeView extends View {
 
   removeButtons() {
     const replayButton = document.querySelector(".win-msg");
-    const playAgainButton = document.querySelector(".play");
-    [replayButton, playAgainButton].forEach((e) => {
-      e.innerHTML = "";
-    });
+    replayButton.innerHTML = "";
   }
 }
 

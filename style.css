@@ -13,22 +13,67 @@ body {
 .menu {
   background: black;
   display: inline-block;
-  height: 50px;
+  height: 70px;
   width: 100%;
   position: absolute;
-  background-image: linear-gradient(to right, rgb(69, 98, 143), rgb(2, 34, 71));
+  background: radial-gradient(
+    circle,
+    rgba(0, 34, 59, 1) 0%,
+    rgba(2, 92, 124, 1) 100%
+  );
 }
 
-.title {
-  display: inline-block;
-  margin: auto;
-  margin-left: 50px;
-  font-size: 30px;
-  color: #fff;
+.title a {
+  font-size: 40px;
+  color: rgb(39, 53, 93);
 }
-.logo {
-  transform: translateY(3px);
-  font-size: 30px;
+
+.home-menu a {
+  transition: 300ms;
+}
+
+.title i {
+  font-size: 50px;
+  transform: translateY(8px);
+}
+
+.home-menu {
+  overflow-x: hidden;
+  text-align: center;
+  width: 100%;
+  height: 70px;
+  border-bottom: rgb(126, 126, 128) 1px solid;
+  border-radius: 0px 0px 20px 20px;
+  box-shadow: 3px 3px 3px 0px rgb(31, 44, 87);
+}
+
+.home-box i {
+  font-size: 80px;
+}
+
+.nav-mousehover {
+  opacity: 0.5;
+}
+
+.home-box {
+  flex-wrap: wrap;
+  align-items: center;
+  display: flex;
+  text-decoration: none;
+  justify-content: center;
+  margin: 20px;
+  font-size: 40px;
+  border-radius: 30px;
+  min-width: 300px;
+  min-height: 170px;
+  width: 300px;
+  height: 170px;
+  color: rgb(39, 53, 93);
+  transition: 300ms;
+}
+
+.home-box-hover {
+  background: rgb(226, 226, 226);
 }
 
 .menu-option {
@@ -37,6 +82,15 @@ body {
   display: inline-block;
   margin-left: 150px;
 }
+
+.menu-option a {
+  color: gray;
+}
+
+.menu-option span {
+  color: aliceblue;
+}
+
 .menu a {
   text-decoration: none;
 }
@@ -44,27 +98,26 @@ body {
 .mousehover {
   opacity: 0.8;
 }
-span {
-  color: #fff;
-  user-select: none;
-}
-a {
-  color: #fff;
-  font-size: 25px;
-}
 
 .content-container {
-  margin-top: 70px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
   height: 100%;
+  overflow-y: auto;
+  transition: 500ms;
 }
 
 .tic-tac-toe {
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
   margin-left: 50px;
-  margin-right: auto;
-  margin-top: 150px;
+  margin-right: 50px;
+  margin-top: 50px;
+  min-width: 400px;
+  min-height: 400px;
   width: 400px;
   height: 400px;
   border: 4px solid #2c3e50;
@@ -89,8 +142,7 @@ a {
   grid-template-rows: 33.3% 33.3% 33.3%;
   width: 400px;
   height: 400px;
-  transform: translateY(-408px);
-  margin-left: 500px;
+  margin-top: 50px;
 }
 .tic-tac-player-box {
   position: flex;
@@ -172,4 +224,47 @@ a {
 
 a {
   text-decoration: none;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+}
+
+.map-markers {
+  display: inline-block;
+  width: 330px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.marker {
+  display: absolute;
+  border: 1px solid black;
+  width: 100%;
+  height: 100px;
+  transition: 300ms;
+}
+
+.map-text {
+  font-size: 20px;
+  text-align: center;
+  font-size: 20px;
+  color: rgb(32, 40, 85);
+  height: 100%;
+}
+
+.mousehover-map {
+  background: rgb(229, 246, 250);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(44, 80, 121);
 }

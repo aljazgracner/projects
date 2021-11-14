@@ -9,6 +9,7 @@
   "author": "Aljaz Gracner",
   "license": "ISC",
   "dependencies": {
+    "leaflet": "^1.7.1",
     "parcel": "^2.0.1"
   }
 }

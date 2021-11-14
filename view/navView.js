@@ -1,31 +1,20 @@
 class NavigationView {
-  _navigation = document.querySelector(".menu");
-  _allOptions = document.querySelectorAll(".nav-option");
+  _navigation = document.querySelector(".home-menu");
 
   addHoverEventHandlers(fn) {
-    ["mouseover", "mouseout"].forEach((condition) => {
-      this._navigation.addEventListener(condition, function (e) {
-        fn(e);
-      });
+    ["mouseover", "mouseout"].forEach((e) => {
+      this._navigation.addEventListener(e, fn);
     });
   }
 
   hoverFunction(e) {
-    if (e.target.closest("div").classList.contains("menu-option")) {
-      const navLink = e.target.closest("div");
-      navLink.classList.toggle("mousehover");
-      navLink.querySelector("i").classList.toggle("bx-tada");
-    }
+    const navLink = e.target.closest("a");
+    if (!navLink) return;
+    navLink.classList.toggle("nav-mousehover");
   }
 
   addClickHandler(fn) {
     this._navigation.addEventListener("click", fn);
-  }
-
-  checkClickedContent(clickEvent) {
-    if (clickEvent.target.closest("div").classList.contains("menu-option"))
-      return true;
-    return false;
   }
 }
 

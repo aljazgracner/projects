@@ -3,16 +3,29 @@
     <meta charset="UTF-8">
     <title>My Projects | Aljaz Gracner</title>
     <link rel='stylesheet' href='style.css'>
-    <script type="module" defer src='controller.js'></script>
+    <script type='module' src="controller.js"></script>
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
     <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
  
 </head>
 <body>
-    <div class="menu">
+    <div class="home-menu">
         <div class="title">
-            <i class='bx bx-code logo' ></i>
-            <span class='name'>My projects</span>        
+            <a href="#">
+                <span class='nav-link'>My projects |</span> <span class='name-home'> Aljaz Gracner</span> 
+            </a>   
+        </div>
+       <!-- <div class="menu-option">
+            <a href="#">
+            <i class='bx bx-code' ></i>
+            <span class='nav-link'>My projects</span> 
+        </a>      
         </div>       
         <div class="menu-option">
             <a href="#">
@@ -20,10 +33,9 @@
                 <span class="nav-link">Tic Tac Toe</span>
             </a>   
         </div>
-              
+    -->
     </div>
-    <div class="content-container">
-     
+    <div class="content-container">   
     </div>
 
 </body>
