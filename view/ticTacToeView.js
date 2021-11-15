@@ -28,6 +28,7 @@ class TicTacToeView extends View {
         </a></div>
            </div>
         `;
+    this._contentContainer.style.flexWrap = "wrap";
     this._contentContainer.insertAdjacentHTML("afterbegin", markup);
   }
 

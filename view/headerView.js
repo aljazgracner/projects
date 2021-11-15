@@ -1,5 +1,5 @@
 class NavigationView {
-  _navigation = document.querySelector(".home-menu");
+  _navigation = document.querySelector(".header");
 
   addHoverEventHandlers(fn) {
     ["mouseover", "mouseout"].forEach((e) => {

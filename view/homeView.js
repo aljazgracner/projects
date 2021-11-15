@@ -9,12 +9,12 @@ class HomeView extends View {
         </div>
     </a> 
     <a href="#"> 
-        <div class="home-box"><span class="nav-link">Map Marker</span> 
+        <div class="home-box"><span class="nav-link">Map Logs</span> 
             <i class='bx bx-map-pin' ></i></div>
         </a> 
         <a href="#"></a>
         <div class="home-box"></div></a> `;
-
+    this._contentContainer.style.flexWrap = "wrap";
     this._contentContainer.insertAdjacentHTML("afterbegin", markup);
   }
 

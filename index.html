@@ -3,7 +3,6 @@
     <meta charset="UTF-8">
     <title>My Projects | Aljaz Gracner</title>
     <link rel='stylesheet' href='style.css'>
-    <script type='module' src="controller.js"></script>
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
@@ -11,14 +10,15 @@
    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
    crossorigin=""></script>
+   <script defer type='module' src="/controller/homeController.js"></script>
     <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
  
 </head>
 <body>
-    <div class="home-menu">
+    <div class="header">
         <div class="title">
             <a href="#">
-                <span class='nav-link'>My projects |</span> <span class='name-home'> Aljaz Gracner</span> 
+                <span class='nav-link'>My projects | Home</span>  
             </a>   
         </div>
        <!-- <div class="menu-option">
@@ -35,8 +35,10 @@
         </div>
     -->
     </div>
-    <div class="content-container">   
+    <div class="content-container">  
+       
     </div>
+    <div class="footer"><span class='credits'>HTML/CSS/JavaScript</span></div>
 
 </body>
 </html>
