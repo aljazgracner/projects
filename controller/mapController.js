@@ -20,15 +20,13 @@ class MapMarkerControl {
     mapView.renderText(mapModule.date);
     mapView.addHoverEventHandler(mapView.hoverFunction);
     mapModule.getState(mapView);
-    console.log(mapModule.markersAndText);
   }
 
   focusOrDeleteMarker(event) {
     if (mapView.checkClickedOption(event)) {
-      console.log("lkll");
-      mapModule.removeState(mapView.removedText);
-    }
-    if (!mapView.checkClickedOption(event)) {
+      mapModule.removeState(mapView);
+    } else {
+      console.log("else");
     }
   }
 }

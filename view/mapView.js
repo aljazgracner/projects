@@ -1,9 +1,9 @@
 import View from "./view.js";
 
 class MapView extends View {
-  _markup;
-  removedText;
+  markup;
   fullText;
+  removedText;
   prepareMarkerText = this._prepareMarkerText.bind(this);
   showForm = this._showForm.bind(this);
   renderMarker = this._renderMarker.bind(this);
@@ -64,7 +64,7 @@ class MapView extends View {
   _renderMarker(submit) {
     submit.preventDefault();
     const markup = document.querySelector("input").value;
-    this._markup = markup;
+    this.markup = markup;
     this.currentMarker.addTo(this._map).bindPopup(markup).openPopup();
     this._hideForm();
   }
@@ -101,17 +101,16 @@ class MapView extends View {
   renderText(date) {
     const mapMarkers = document.querySelector(".map-markers-box");
     const markup = `<a href='#'><div class="marker">On ${date}: <span class='close'>X</span><br>
-    ${this._markup}</div></a>`;
+    ${this.markup}</div></a>`;
     this.fullText = markup;
     mapMarkers.insertAdjacentHTML("afterbegin", markup);
   }
 
   _checkClickedOption(event) {
-    console.log("kkk");
     if (event.target.closest("span")) {
       const close = event.target.closest("a");
       if (event.target.closest("span").classList.contains("close")) {
-        this.removedText = close;
+        this.removedText = close.querySelector(".marker").textContent;
         this._removeMarker(close);
         return true;
       }

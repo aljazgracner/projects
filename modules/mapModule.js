@@ -19,13 +19,19 @@ class MapModule {
     }).format(new Date());
   }
   removeState(state) {
-    console.log(state.removedText);
-    console.log(this.markersAndText[1][0]);
+    const slice = console.log(state.removedText);
+    this.markersAndText[1].forEach((text) => {
+      if (text.includes(state.removedText)) {
+        console.log(this.removeIndex);
+        this.removeIndex = this.markersAndText[1].indexOf(text);
+      }
+    });
   }
 
   getState(state) {
     this.markersAndText[0].push(state.currentMarker);
     this.markersAndText[1].push(state.fullText);
+    console.log(this.markersAndText);
   }
   _getCoordinates() {
     return new Promise((resolve, reject) => {
