@@ -24,7 +24,7 @@ body {
 
 .header {
   display: inline-block;
-  overflow-x: hidden;
+  overflow: hidden;
   text-align: center;
   width: 100%;
   flex-basis: 70px;
@@ -328,7 +328,7 @@ input {
   font-size: 20px;
   margin-left: 33%;
   margin-right: 33%;
-  margin-top: 5px;
+  margin-bottom: 5px;
   cursor: pointer;
 }
 

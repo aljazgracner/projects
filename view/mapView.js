@@ -46,7 +46,8 @@ class MapView extends View {
       attribution:
         'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
     }).addTo(this._map);
-    if (this.mobile) {
+    console.log(this.isMobile);
+    if (this.isMobile) {
       document.querySelector(".content-container").style.flexDirection =
         "column";
       document.querySelector("#map").style.height = "70%";
@@ -92,7 +93,7 @@ class MapView extends View {
     if (mapMarkers.querySelector(".form")) return;
     const form = this.isMobile ? "form-mobile" : "form";
     const markup = `
-        <form class="form">
+        <form class="${form}">
             <legend>Enter Log</legend>
             <input class='form' required /><br>
             <button id="form" type="submit" class="button">Save</button>
@@ -130,7 +131,7 @@ class MapView extends View {
   renderText(date) {
     const mapMarkers = document.querySelector(".map-markers-box");
     const markup = `<a href='#'><div class="marker"><span class="log-text">On ${date} <i class='bx bx-checkbox-minus close' ></i><br>
-    Message:<br> ${this.markup}</span></div></a>`;
+    Message: ${this.markup}</span></div></a>`;
     mapMarkers.insertAdjacentHTML("afterbegin", markup);
     this._checkIfMarkerBoxEmpty();
   }

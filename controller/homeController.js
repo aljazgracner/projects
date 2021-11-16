@@ -3,7 +3,7 @@ import mapController from "./mapController.js";
 import headerView from "../view/headerView.js";
 import homeView from "../view/homeView.js";
 
-class Controller {
+class HomeController {
   currentOption;
   showHome = this._showHome.bind(this);
   loadClickedContent = this._loadClickedContent.bind(this);
@@ -32,4 +32,4 @@ class Controller {
   }
 }
 
-const initialize = new Controller();
+const app = new HomeController();

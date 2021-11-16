@@ -16,6 +16,7 @@ class HomeView extends View {
         <div class="home-box"></div></a> `;
     this._contentContainer.style.flexWrap = "wrap";
     this._contentContainer.insertAdjacentHTML("afterbegin", markup);
+    this._contentContainer.style.flexDirection = null;
   }
 
   addHoverEventHandler(fn) {
