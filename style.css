@@ -219,6 +219,18 @@ a .replay-hover {
   text-decoration: none;
 }
 
+.leaflet-popup .leaflet-popup-content-wrapper {
+  background: rgb(34, 34, 34);
+  color: rgb(226, 233, 253);
+  text-align: center;
+  display: flex;
+}
+.leaflet-popup-content {
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow-wrap: break-word;
+  font-size: 15px;
+}
 a {
   text-decoration: none;
 }
@@ -241,14 +253,22 @@ a {
 }
 
 .marker {
-  flex-wrap: wrap;
-  display: inline-block;
+  display: flex;
+  overflow-wrap: break-word;
+  flex-direction: column;
+  margin: auto;
   width: 100%;
   height: auto;
   transition: 300ms;
   text-align: center;
   background: rgb(75, 75, 75);
-  border-bottom: 1px gray solid;
+  border-bottom: 1px solid rgb(34, 34, 34);
+}
+
+.marker span {
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
 }
 a i {
   font-size: 30px;

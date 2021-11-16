@@ -40,7 +40,7 @@ class MapMarkerControl {
     if (!mapView._checkIfLogClicked(event)) return;
     mapModule.getIndex(mapView.logText);
     mapModule.getMarker();
-    mapView._panToMarker(mapModule.currentMarker._latlng);
+    mapView._panToMarker(mapModule.currentMarker);
   }
 }
 

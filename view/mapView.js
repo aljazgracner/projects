@@ -66,7 +66,17 @@ class MapView extends View {
     const markup = document.querySelector("input").value;
     submit.preventDefault();
     this.markup = markup;
-    this.currentMarker.addTo(this._map).bindPopup(markup).openPopup();
+    this.currentMarker
+      .addTo(this._map)
+      .bindPopup(
+        L.popup({
+          minWidth: 100,
+          maxWidth: 200,
+          autoPan: false,
+        })
+      )
+      .setPopupContent(markup)
+      .openPopup();
     this._hideForm();
   }
   _showForm() {
@@ -111,7 +121,7 @@ class MapView extends View {
   renderText(date) {
     const mapMarkers = document.querySelector(".map-markers-box");
     const markup = `<a href='#'><div class="marker"><span class="log-text">On ${date} <i class='bx bx-checkbox-minus close' ></i><br>
-    Message: ${this.markup}</span></div></a>`;
+    Message:<br> ${this.markup}</span></div></a>`;
     mapMarkers.insertAdjacentHTML("afterbegin", markup);
     this._checkIfMarkerBoxEmpty();
   }
@@ -120,8 +130,8 @@ class MapView extends View {
     if (array.length == 0) return;
     const mapMarkers = document.querySelector(".map-markers-box");
     array.forEach((object) => {
-      const markup = `<a href='#'><div class="marker">On ${object.date} <i class='bx bx-checkbox-minus close' ></i><br>
-      Message: ${object.text}</div></a>`;
+      const markup = `<a href='#'><div class="marker"><span class="log-text">On ${object.date}<i class='bx bx-checkbox-minus close' ></i><br>
+      Message: ${object.text}</span></div></a>`;
       mapMarkers.insertAdjacentHTML("afterbegin", markup);
     });
     this._loadSavedMarkers(array);
@@ -145,8 +155,9 @@ class MapView extends View {
     return true;
   }
 
-  _panToMarker(coords) {
-    this._map.panTo(coords);
+  _panToMarker(marker) {
+    this._map.panTo(marker._latlng);
+    marker.openPopup();
   }
 
   _deleteMarkerFromView(event) {
