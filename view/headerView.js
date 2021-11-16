@@ -1,10 +1,14 @@
 class NavigationView {
+  hoverEvents;
   _navigation = document.querySelector(".header");
 
-  addHoverEventHandlers(fn) {
-    ["mouseover", "mouseout"].forEach((e) => {
-      this._navigation.addEventListener(e, fn);
-    });
+  addHoverEventHandlers(fn, isMobile) {
+    this.hoverEvents = isMobile
+      ? ["touchstart", "touchend"]
+      : ["mouseover", "mouseout"];
+    this.hoverEvents.forEach((event) =>
+      this._navigation.addEventListener(event, fn)
+    );
   }
 
   hoverFunction(e) {

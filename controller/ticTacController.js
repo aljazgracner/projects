@@ -2,6 +2,7 @@ import ticTacToeView from "../view/ticTacToeView.js";
 import ticTacModule from "../modules/ticTacModule.js";
 
 class TicTacToeControl {
+  isMobile;
   showTicTac = this.showTicTacToe.bind(this);
   playTicTac = this.playTicTacToe.bind(this);
   replayTicTac = this.replayTicTacToe.bind(this);
@@ -18,7 +19,9 @@ class TicTacToeControl {
     }
     ticTacToeView.addPlayAgainHoverEvent(ticTacToeView.playAgainHoverFunction);
     ticTacToeView.addPlayAgainClickEvent(this.playAgainTicTac);
-    ticTacToeView.addHoverHandler(ticTacToeView.hoverFunction);
+    console.log("pred hover handler");
+    ticTacToeView.addHoverHandler(ticTacToeView.hoverFunction, this.isMobile);
+    console.log("po hover handler");
   }
 
   playTicTacToe(clickedBox) {

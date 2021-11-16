@@ -1,6 +1,7 @@
 import View from "./view.js";
 
 class MapView extends View {
+  hoverEvents;
   isMobile;
   markup;
   logText;
@@ -25,11 +26,12 @@ class MapView extends View {
     this._contentContainer.insertAdjacentHTML("afterbegin", markup);
   }
 
-  addLogsHoverEventHandler(fn) {
+  addLogsHoverEventHandler(fn, isMobile) {
     const mapMarkers = document.querySelector(".map-markers-box");
-    ["mouseout", "mouseover"].forEach((e) => {
-      mapMarkers.addEventListener(e, fn);
-    });
+    this.hoverEvents = isMobile
+      ? ["touchstart", "touchend"]
+      : ["mouseover", "mouseout"];
+    this.hoverEvents.forEach((event) => mapMarkers.addEventListener(event, fn));
   }
 
   logsHoverFunction(event) {

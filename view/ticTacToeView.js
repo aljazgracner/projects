@@ -44,15 +44,18 @@ class TicTacToeView extends View {
     ticTacContainer.removeEventListener("click", fn, true);
   }
 
-  addHoverHandler(fn) {
-    ["mouseover", "mouseout"].forEach((e) =>
-      document.querySelector(".tic-tac-toe").addEventListener(e, function (e) {
-        fn(e);
-      })
+  addHoverHandler(fn, isMobile) {
+    this.hoverEvents = isMobile
+      ? ["touchstart", "touchend"]
+      : ["mouseover", "mouseout"];
+    console.log(this.hoverEvents);
+    this.hoverEvents.forEach((event) =>
+      document.querySelector(".tic-tac-toe").addEventListener(event, fn)
     );
   }
 
   hoverFunction(hover) {
+    console.log("se zgodi");
     if (hover.target.closest("div").classList.contains("tic-tac-toe")) return;
     hover.target.closest("div").classList.toggle("mousehover");
   }

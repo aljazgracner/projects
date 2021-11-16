@@ -1,6 +1,7 @@
 import View from "./view.js";
 
 class HomeView extends View {
+  hoverEvents;
   _renderHTML() {
     const markup = `<a href="#">     
         <div class="home-box">
@@ -19,10 +20,13 @@ class HomeView extends View {
     this._contentContainer.style.flexDirection = null;
   }
 
-  addHoverEventHandler(fn) {
-    ["mouseout", "mouseover"].forEach((e) => {
-      this._contentContainer.addEventListener(e, fn);
-    });
+  addHoverEventHandler(fn, isMobile) {
+    this.hoverEvents = isMobile
+      ? ["touchstart", "touchend"]
+      : ["mouseover", "mouseout"];
+    this.hoverEvents.forEach((event) =>
+      this._contentContainer.addEventListener(event, fn)
+    );
   }
 
   hoverFunction(e) {

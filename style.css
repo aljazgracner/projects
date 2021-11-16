@@ -131,7 +131,9 @@ body {
   background: rgb(226, 233, 253);
   user-select: none;
   transition: 300ms;
+  cursor: pointer;
 }
+
 
 .tic-tac-player {
   position: flex;

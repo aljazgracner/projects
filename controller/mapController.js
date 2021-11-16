@@ -2,12 +2,13 @@ import mapView from "../view/mapView.js";
 import mapModule from "../modules/mapModule.js";
 
 class MapMarkerControl {
+  isMobile;
   showMapLogs = this._showMapLogs.bind(this);
   deleteMarker = this._deleteMarker.bind(this);
   moveToMarker = this._moveToMarker.bind(this);
 
   async _showMapLogs() {
-    mapView.isMobile = mapModule.isMobile();
+    mapView.isMobile = this.isMobile;
     await mapModule.getPosition();
     mapView.renderContent();
     mapView.renderMap(mapModule.location);
@@ -16,7 +17,7 @@ class MapMarkerControl {
     mapView.addMarkerBoxClickEventHandler(this.deleteMarker, this.moveToMarker);
     mapModule.getLocalStorage();
     mapView.loadSavedArray(mapModule.arrayOfMarkers);
-    mapView.addLogsHoverEventHandler(mapView.logsHoverFunction);
+    mapView.addLogsHoverEventHandler(mapView.logsHoverFunction, this.isMobile);
   }
 
   newMarker(submit) {

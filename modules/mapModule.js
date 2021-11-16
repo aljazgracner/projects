@@ -37,10 +37,6 @@ class MapModule {
     });
   }
 
-  isMobile() {
-    return window.matchMedia("only screen and (max-width: 760px)").matches;
-  }
-
   getMarker() {
     if (this.markerIndex == "0")
       this.currentMarker = this.arrayOfMarkers[this.markerIndex].marker;
