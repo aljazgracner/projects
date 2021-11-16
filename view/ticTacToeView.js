@@ -81,6 +81,13 @@ class TicTacToeView extends View {
     console.log("scroll");
   }
 
+  scrollToBottom() {
+    this._contentContainer.scrollTo({
+      top: this._contentContainer.scrollHeight,
+      behavior: "smooth",
+    });
+  }
+
   createMark(clickedBox, activePlayer, replayArray, boxNumbers, replay = true) {
     if (!replayArray && clickedBox) {
       clickedBox.target

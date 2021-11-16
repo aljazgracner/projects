@@ -44,6 +44,7 @@ class TicTacToeControl {
       ticTacToeView.replayButtonHoverFunction
     );
     ticTacToeView.addReplayButtonClickEvent(this.replayTicTacToe);
+    ticTacToeView.scrollToBottom();
   }
 
   replayTicTacToe() {
