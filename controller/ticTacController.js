@@ -47,7 +47,7 @@ class TicTacToeControl {
     ticTacToeView.scrollToBottom();
   }
 
-  replayTicTacToe() {
+  async replayTicTacToe() {
     ticTacToeView.scrollToTop();
     ticTacToeView.removeMarks(ticTacModule.boardState[2]);
     ticTacToeView.createMark(

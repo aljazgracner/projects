@@ -2,6 +2,7 @@ import View from "./view.js";
 import { timeout } from "../helpers.js";
 
 class TicTacToeView extends View {
+  playAgainButton;
   _renderHTML() {
     const markup = `<div class="tic-tac-toe">
     <div class="tic-tac-box" id="1"></div>
@@ -30,6 +31,7 @@ class TicTacToeView extends View {
         `;
     this._contentContainer.style.flexWrap = "wrap";
     this._contentContainer.insertAdjacentHTML("afterbegin", markup);
+    this.playAgainButton = document.querySelector(".play-again");
   }
 
   addClickEventHandler(fn) {
@@ -94,8 +96,12 @@ class TicTacToeView extends View {
         .closest("div")
         .insertAdjacentHTML("afterbegin", activePlayer);
     }
-    if (replayArray) {
+    if (replayArray && replay) {
       (async () => {
+        console.log(replayArray);
+        [".play-again", ".watch-replay"].forEach((className) => {
+          document.querySelector(className).style.display = "none";
+        });
         boxNumbers ? this.highlightTicTacBoxOnOff(boxNumbers) : "";
         let crossCircle = "X";
         for (const x of replayArray) {
@@ -106,6 +112,9 @@ class TicTacToeView extends View {
           crossCircle == "X" ? (crossCircle = "O") : (crossCircle = "X");
         }
         boxNumbers ? this.highlightTicTacBoxOnOff(boxNumbers) : "";
+        [".play-again", ".watch-replay"].forEach((className) => {
+          document.querySelector(className).style.display = null;
+        });
       })();
     }
   }
@@ -157,9 +166,8 @@ class TicTacToeView extends View {
   }
 
   addPlayAgainHoverEvent(fn) {
-    const button = document.querySelector(".play-again");
     ["mouseout", "mouseover"].forEach((e) => {
-      button.addEventListener(e, fn);
+      this.playAgainButton.addEventListener(e, fn);
     });
   }
 
@@ -168,8 +176,7 @@ class TicTacToeView extends View {
   }
 
   addPlayAgainClickEvent(fn) {
-    const button = document.querySelector(".play-again");
-    button.addEventListener("click", fn);
+    this.playAgainButton.addEventListener("click", fn);
   }
 
   removeButtons() {
