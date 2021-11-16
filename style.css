@@ -246,21 +246,6 @@ a {
 a i {
   font-size: 30px;
 }
-.marker-save {
-  position: inline-block;
-  width: 100%;
-  height: 40px;
-  text-align: center;
-  color: rgb(39, 53, 93);
-  border-bottom: 1px solid gray;
-  font-size: 25px;
-  transition: 300ms;
-}
-
-.marker-hover {
-  background: rgb(39, 53, 93);
-  color: #fff;
-}
 
 a .marker {
   color: rgb(39, 53, 93);

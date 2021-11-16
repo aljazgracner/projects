@@ -15,8 +15,6 @@ class MapMarkerControl {
     mapModule.getLocalStorage();
     mapView.loadSavedArray(mapModule.arrayOfMarkers);
     mapView.addLogsHoverEventHandler(mapView.logsHoverFunction);
-    mapView.addLogsHoverEventHandler(mapView.saveHoverEventFunction);
-    mapView.addMarkerBoxClickEventHandler(mapModule.setLocalStorage);
   }
 
   newMarker(submit) {
@@ -24,6 +22,7 @@ class MapMarkerControl {
     mapModule.getDate();
     mapView.renderText(mapModule.date);
     mapModule.getState(mapView);
+    mapModule.setLocalStorage();
   }
 
   _deleteMarker(event) {
@@ -33,7 +32,7 @@ class MapMarkerControl {
     mapModule.getMarkerToRemove();
     mapView.removeMarker(mapModule.markerToRemove);
     mapModule.removeState();
-    mapView._removeSaveButton();
+    mapModule.setLocalStorage();
   }
 }
 

@@ -38,7 +38,6 @@ class MapModule {
   }
 
   getMarkerToRemove() {
-    console.log(this.removeIndex);
     if (this.removeIndex == "0")
       this.markerToRemove = this.arrayOfMarkers[this.removeIndex].marker;
     if (!this.removeIndex) return;
@@ -47,12 +46,11 @@ class MapModule {
 
   getState(state) {
     this.arrayOfMarkers.push(
-      new Marker(state.currentMarker._latlng, state.markup, this.date)
+      new Marker(state.currentMarker, state.markup, this.date)
     );
   }
 
   removeState() {
-    if (!this.removeIndex) return;
     this.arrayOfMarkers.splice(this.removeIndex, 1);
   }
   _getCoordinates() {
@@ -74,13 +72,16 @@ class MapModule {
     }
   }
 
-  _setLocalStorage(event) {
-    if (!event.target.classList.contains("marker-save")) return;
-    if (!this.arrayOfMarkers) return;
-    this.arrayOfMarkers.forEach((object) => {
+  _setLocalStorage() {
+    if (!this.arrayOfMarkers) {
+      localStorage.setItem("markers", JSON.stringify(this.arrayOfMarkers));
+      return;
+    }
+    const arrayForJSON = cloneDeep(this.arrayOfMarkers);
+    arrayForJSON.forEach((object) => {
       object.marker.lng ? "" : (object.marker = object.marker._latlng);
     });
-    localStorage.setItem("markers", JSON.stringify(this.arrayOfMarkers));
+    localStorage.setItem("markers", JSON.stringify(arrayForJSON));
   }
 
   getLocalStorage() {
