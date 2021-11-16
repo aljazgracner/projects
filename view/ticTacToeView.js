@@ -72,6 +72,15 @@ class TicTacToeView extends View {
     this.createMark(null, null, save.boardState[2], save.boxNumbers, false);
   }
 
+  scrollToTop() {
+    this._contentContainer.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+    console.log("scroll");
+  }
+
   createMark(clickedBox, activePlayer, replayArray, boxNumbers, replay = true) {
     if (!replayArray && clickedBox) {
       clickedBox.target

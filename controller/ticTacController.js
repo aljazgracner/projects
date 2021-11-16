@@ -47,6 +47,7 @@ class TicTacToeControl {
   }
 
   replayTicTacToe() {
+    ticTacToeView.scrollToTop();
     ticTacToeView.removeMarks(ticTacModule.boardState[2]);
     ticTacToeView.createMark(
       null,
@@ -57,6 +58,7 @@ class TicTacToeControl {
   }
 
   playAgainTicTacToe() {
+    ticTacToeView.scrollToTop();
     ticTacToeView.removeMarks(ticTacModule.boardState[2]);
     ticTacToeView.highlightTicTacBoxOnOff(ticTacModule.winningNumbers);
     ticTacModule.resetGameState();
