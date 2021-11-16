@@ -13,7 +13,7 @@ class MapView extends View {
     const markup = `
     <div class="map-markers-box">
         <div class="map-text">
-            No saved markers yet. Start by clicking on map <br>
+            No saved logs yet. Start by clicking on map <br>
             <i class='bx bx-map'></i>
         </div>     
     </div>
@@ -74,11 +74,9 @@ class MapView extends View {
     if (mapMarkers.querySelector(".form")) return;
     const markup = `
         <form class="form">
-        <fieldset>
             <legend>Enter Log</legend>
             <input class='form' required /><br>
             <button id="form" type="submit" class="button">Save</button>
-        </fieldset>
     </form>`;
     mapMarkers.insertAdjacentHTML("afterbegin", markup);
     const inputFocus = document.querySelector("input");
@@ -97,7 +95,7 @@ class MapView extends View {
     if (markerBox.querySelector(".marker") && emptyBoxText)
       markerBox.removeChild(emptyBoxText);
     const markup = `<div class="map-text">
-    No saved markers yet. Start by clicking on map <br>
+    No saved logs yet. Start by clicking on map <br>
     <i class='bx bx-map'></i>
 </div> `;
     if (!markerBox.querySelector(".marker") && !emptyBoxText) {
@@ -112,8 +110,8 @@ class MapView extends View {
 
   renderText(date) {
     const mapMarkers = document.querySelector(".map-markers-box");
-    const markup = `<a href='#'><div class="marker">On ${date} <i class='bx bx-checkbox-minus close' ></i><br>
-    Message: ${this.markup}</div></a>`;
+    const markup = `<a href='#'><div class="marker"><span class="log-text">On ${date} <i class='bx bx-checkbox-minus close' ></i><br>
+    Message: ${this.markup}</span></div></a>`;
     mapMarkers.insertAdjacentHTML("afterbegin", markup);
     this._checkIfMarkerBoxEmpty();
   }
