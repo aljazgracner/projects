@@ -7,6 +7,7 @@ class MapMarkerControl {
   moveToMarker = this._moveToMarker.bind(this);
 
   async _showMapLogs() {
+    mapView.isMobile = mapModule.isMobile();
     await mapModule.getPosition();
     mapView.renderContent();
     mapView.renderMap(mapModule.location);

@@ -1,6 +1,7 @@
 import View from "./view.js";
 
 class MapView extends View {
+  isMobile;
   markup;
   logText;
   prepareMarkerText = this._prepareMarkerText.bind(this);
@@ -45,6 +46,13 @@ class MapView extends View {
       attribution:
         'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
     }).addTo(this._map);
+    if (this.mobile) {
+      document.querySelector(".content-container").style.flexDirection =
+        "column";
+      document.querySelector("#map").style.height = "70%";
+      document.querySelector(".map-markers-box").style.height = "30%";
+      document.querySelector(".map-markers-box").style.width = "100%";
+    }
   }
 
   addMapClickEventHandler(fn) {
@@ -82,6 +90,7 @@ class MapView extends View {
   _showForm() {
     const mapMarkers = document.querySelector(".map-markers-box");
     if (mapMarkers.querySelector(".form")) return;
+    const form = this.isMobile ? "form-mobile" : "form";
     const markup = `
         <form class="form">
             <legend>Enter Log</legend>
@@ -141,7 +150,16 @@ class MapView extends View {
   _loadSavedMarkers(array) {
     array.forEach((object) => {
       const newMarker = L.marker([object.marker.lat, object.marker.lng]);
-      newMarker.addTo(this._map).bindPopup(object.text);
+      newMarker
+        .addTo(this._map)
+        .bindPopup(
+          L.popup({
+            minWidth: 100,
+            maxWidth: 200,
+            autoPan: false,
+          })
+        )
+        .setPopupContent(object.text);
       object.marker = newMarker;
     });
   }

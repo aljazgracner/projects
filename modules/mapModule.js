@@ -9,6 +9,7 @@ class Marker {
 }
 
 class MapModule {
+  mobile;
   setLocalStorage = this._setLocalStorage.bind(this);
   arrayOfMarkers = [];
   location = {
@@ -35,6 +36,13 @@ class MapModule {
         this.markerIndex = this.arrayOfMarkers.indexOf(marker);
       }
     });
+  }
+
+  isMobile() {
+    this.mobile = window.matchMedia(
+      "only screen and (max-width: 760px)"
+    ).matches;
+    console.log(this.mobile);
   }
 
   getMarker() {
