@@ -2,12 +2,11 @@ import View from "./view.js";
 
 class MapView extends View {
   markup;
-  fullText;
   removedText;
   prepareMarkerText = this._prepareMarkerText.bind(this);
   showForm = this._showForm.bind(this);
   renderMarker = this._renderMarker.bind(this);
-  checkClickedOption = this._checkClickedOption.bind(this);
+  deleteMarkerFromView = this._deleteMarkerFromView.bind(this);
   _map;
   currentMarker;
   _renderHTML() {
@@ -25,16 +24,21 @@ class MapView extends View {
     this._contentContainer.insertAdjacentHTML("afterbegin", markup);
   }
 
-  addHoverEventHandler(fn) {
+  addLogsHoverEventHandler(fn) {
     const mapMarkers = document.querySelector(".map-markers-box");
     ["mouseout", "mouseover"].forEach((e) => {
       mapMarkers.addEventListener(e, fn);
     });
   }
 
-  hoverFunction(e) {
-    if (!e.target.closest("div").classList.contains("marker")) return;
-    e.target.closest("div").classList.toggle("mousehover-map");
+  saveHoverEventFunction(event) {
+    if (!event.target.closest("div").classList.contains("marker-save")) return;
+    event.target.classList.toggle("marker-hover");
+  }
+
+  logsHoverFunction(event) {
+    if (!event.target.closest("div").classList.contains("marker")) return;
+    event.target.closest("div").classList.toggle("mousehover-map");
   }
 
   renderMap(location) {
@@ -62,24 +66,27 @@ class MapView extends View {
     this.showForm();
   }
   _renderMarker(submit) {
-    submit.preventDefault();
     const markup = document.querySelector("input").value;
+    submit.preventDefault();
     this.markup = markup;
     this.currentMarker.addTo(this._map).bindPopup(markup).openPopup();
     this._hideForm();
   }
   _showForm() {
     const mapMarkers = document.querySelector(".map-markers-box");
+    if (mapMarkers.querySelector(".form")) return;
     const markup = `
         <form class="form">
         <fieldset>
             <legend>Enter Log</legend>
             <input class='form' required /><br>
-            <button type="submit" class="button">Save</button>
+            <button id="form" type="submit" class="button">Save</button>
         </fieldset>
     </form>`;
     this._checkIfMarkerBoxEmpty();
-    mapMarkers.insertAdjacentHTML("afterbegin", markup);
+    mapMarkers.insertAdjacentHTML("beforeend", markup);
+    const inputFocus = document.querySelector("input");
+    inputFocus.focus();
   }
 
   _hideForm() {
@@ -92,6 +99,19 @@ class MapView extends View {
     const markerBox = document.querySelector(".map-markers-box");
     if (markerBox.querySelector(".map-text")) markerBox.innerHTML = "";
   }
+  _addSaveButton() {
+    const markerBox = document.querySelector(".map-markers-box");
+    if (markerBox.querySelector(".marker-save")) return;
+    const saveButton = `<a href="#"><div class="marker-save">>Save logs<</div></a>`;
+    markerBox.insertAdjacentHTML("afterbegin", saveButton);
+  }
+
+  _removeSaveButton() {
+    const markerBox = document.querySelector(".map-markers-box");
+    const saveButton = markerBox.querySelector("a");
+    if (markerBox.querySelector(".marker")) return;
+    markerBox.removeChild(saveButton);
+  }
 
   addSubmitEventHandler(fn) {
     const mapMarkers = document.querySelector(".map-markers-box");
@@ -99,29 +119,51 @@ class MapView extends View {
   }
 
   renderText(date) {
+    this._addSaveButton();
     const mapMarkers = document.querySelector(".map-markers-box");
-    const markup = `<a href='#'><div class="marker">On ${date}: <span class='close'>X</span><br>
-    ${this.markup}</div></a>`;
-    this.fullText = markup;
-    mapMarkers.insertAdjacentHTML("afterbegin", markup);
+    const markup = `<a href='#'><div class="marker">On ${date} <i class='bx bx-checkbox-minus close' ></i><br>
+    Message: ${this.markup}</div></a>`;
+    mapMarkers.insertAdjacentHTML("beforeend", markup);
   }
 
-  _checkClickedOption(event) {
-    if (event.target.closest("span")) {
-      const close = event.target.closest("a");
-      if (event.target.closest("span").classList.contains("close")) {
-        this.removedText = close.querySelector(".marker").textContent;
-        this._removeMarker(close);
-        return true;
-      }
-    }
-    if (event.target.closest("a")) return true;
-    return false;
+  loadSavedArray(array) {
+    if (array.length == 0) return;
+    this._checkIfMarkerBoxEmpty();
+    this._addSaveButton();
+    const mapMarkers = document.querySelector(".map-markers-box");
+    array.forEach((object) => {
+      const markup = `<a href='#'><div class="marker">On ${object.date} <i class='bx bx-checkbox-minus close' ></i><br>
+      Message: ${object.text}</div></a>`;
+      mapMarkers.insertAdjacentHTML("beforeend", markup);
+    });
+    this._loadSavedMarkers(array);
   }
 
-  _removeMarker(element) {
+  _loadSavedMarkers(array) {
+    array.forEach((object) => {
+      const newMarker = L.marker([object.marker.lat, object.marker.lng]);
+      newMarker.addTo(this._map).bindPopup(object.text);
+      object.marker = newMarker;
+    });
+  }
+
+  _deleteMarkerFromView(event) {
+    if (!event.target.closest("i")) return;
+    const close = event.target.closest("a");
+    this.removedText = close.querySelector(".marker").textContent;
+    this._removeText(close);
+  }
+
+  _removeText(element) {
     const markerBox = document.querySelector(".map-markers-box");
     markerBox.removeChild(element);
+  }
+
+  removeMarker(marker) {
+    console.log(marker);
+    if (!marker) return;
+    console.log("happens");
+    marker.remove();
   }
 }
 

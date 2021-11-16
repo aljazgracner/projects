@@ -3,31 +3,37 @@ import mapModule from "../modules/mapModule.js";
 
 class MapMarkerControl {
   showMapLogs = this._showMapLogs.bind(this);
-  focusOrDeleteMark = this.focusOrDeleteMarker.bind(this);
+  deleteMarker = this._deleteMarker.bind(this);
 
   async _showMapLogs() {
     await mapModule.getPosition();
     mapView.renderContent();
     mapView.renderMap(mapModule.location);
     mapView.addMapClickEventHandler(mapView.prepareMarkerText);
-    mapView.addSubmitEventHandler(this.newMarkerMapLogs);
-    mapView.addMarkerBoxClickEventHandler(this.focusOrDeleteMark);
+    mapView.addSubmitEventHandler(this.newMarker);
+    mapView.addMarkerBoxClickEventHandler(this.deleteMarker);
+    mapModule.getLocalStorage();
+    mapView.loadSavedArray(mapModule.arrayOfMarkers);
+    mapView.addLogsHoverEventHandler(mapView.logsHoverFunction);
+    mapView.addLogsHoverEventHandler(mapView.saveHoverEventFunction);
+    mapView.addMarkerBoxClickEventHandler(mapModule.setLocalStorage);
   }
 
-  newMarkerMapLogs(submit) {
+  newMarker(submit) {
     mapView.renderMarker(submit);
     mapModule.getDate();
     mapView.renderText(mapModule.date);
-    mapView.addHoverEventHandler(mapView.hoverFunction);
     mapModule.getState(mapView);
   }
 
-  focusOrDeleteMarker(event) {
-    if (mapView.checkClickedOption(event)) {
-      mapModule.removeState(mapView);
-    } else {
-      console.log("else");
-    }
+  _deleteMarker(event) {
+    if (!event.target.closest("i")) return;
+    mapView.deleteMarkerFromView(event);
+    mapModule.getIndexToRemove(mapView.removedText);
+    mapModule.getMarkerToRemove();
+    mapView.removeMarker(mapModule.markerToRemove);
+    mapModule.removeState();
+    mapView._removeSaveButton();
   }
 }
 

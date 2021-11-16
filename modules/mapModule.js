@@ -1,13 +1,23 @@
 import { apiTimeout } from "../helpers.js";
+import cloneDeep from "../node_modules/lodash-es/cloneDeep.js";
+class Marker {
+  constructor(marker, text, date) {
+    this.marker = marker;
+    this.text = text;
+    this.date = date;
+  }
+}
 
 class MapModule {
+  setLocalStorage = this._setLocalStorage.bind(this);
+  arrayOfMarkers = [];
   location = {
     latitude: "",
     longitude: "",
   };
   date;
-  markersAndText = [[], []];
   removeIndex;
+  markerToRemove;
 
   getDate() {
     this.date = new Intl.DateTimeFormat("en-GB", {
@@ -18,20 +28,32 @@ class MapModule {
       second: "numeric",
     }).format(new Date());
   }
-  removeState(state) {
-    const slice = console.log(state.removedText);
-    this.markersAndText[1].forEach((text) => {
-      if (text.includes(state.removedText)) {
-        console.log(this.removeIndex);
-        this.removeIndex = this.markersAndText[1].indexOf(text);
+  getIndexToRemove(removedText) {
+    if (!removedText) return;
+    this.arrayOfMarkers.forEach((marker) => {
+      if (removedText.includes(marker.date)) {
+        this.removeIndex = this.arrayOfMarkers.indexOf(marker);
       }
     });
   }
 
+  getMarkerToRemove() {
+    console.log(this.removeIndex);
+    if (this.removeIndex == "0")
+      this.markerToRemove = this.arrayOfMarkers[this.removeIndex].marker;
+    if (!this.removeIndex) return;
+    this.markerToRemove = this.arrayOfMarkers[this.removeIndex].marker;
+  }
+
   getState(state) {
-    this.markersAndText[0].push(state.currentMarker);
-    this.markersAndText[1].push(state.fullText);
-    console.log(this.markersAndText);
+    this.arrayOfMarkers.push(
+      new Marker(state.currentMarker._latlng, state.markup, this.date)
+    );
+  }
+
+  removeState() {
+    if (!this.removeIndex) return;
+    this.arrayOfMarkers.splice(this.removeIndex, 1);
   }
   _getCoordinates() {
     return new Promise((resolve, reject) => {
@@ -50,6 +72,21 @@ class MapModule {
     } catch (err) {
       throw new Error();
     }
+  }
+
+  _setLocalStorage(event) {
+    if (!event.target.classList.contains("marker-save")) return;
+    if (!this.arrayOfMarkers) return;
+    this.arrayOfMarkers.forEach((object) => {
+      object.marker.lng ? "" : (object.marker = object.marker._latlng);
+    });
+    localStorage.setItem("markers", JSON.stringify(this.arrayOfMarkers));
+  }
+
+  getLocalStorage() {
+    const checkLocalStorage = localStorage.getItem("markers");
+    if (checkLocalStorage)
+      this.arrayOfMarkers = [...JSON.parse(localStorage.getItem("markers"))];
   }
 }
 
