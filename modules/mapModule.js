@@ -16,8 +16,8 @@ class MapModule {
     longitude: "",
   };
   date;
-  removeIndex;
-  markerToRemove;
+  markerIndex;
+  currentMarker;
 
   getDate() {
     this.date = new Intl.DateTimeFormat("en-GB", {
@@ -28,20 +28,20 @@ class MapModule {
       second: "numeric",
     }).format(new Date());
   }
-  getIndexToRemove(removedText) {
+  getIndex(removedText) {
     if (!removedText) return;
     this.arrayOfMarkers.forEach((marker) => {
       if (removedText.includes(marker.date)) {
-        this.removeIndex = this.arrayOfMarkers.indexOf(marker);
+        this.markerIndex = this.arrayOfMarkers.indexOf(marker);
       }
     });
   }
 
-  getMarkerToRemove() {
-    if (this.removeIndex == "0")
-      this.markerToRemove = this.arrayOfMarkers[this.removeIndex].marker;
-    if (!this.removeIndex) return;
-    this.markerToRemove = this.arrayOfMarkers[this.removeIndex].marker;
+  getMarker() {
+    if (this.markerIndex == "0")
+      this.currentMarker = this.arrayOfMarkers[this.markerIndex].marker;
+    if (!this.markerIndex) return;
+    this.currentMarker = this.arrayOfMarkers[this.markerIndex].marker;
   }
 
   getState(state) {
@@ -51,7 +51,7 @@ class MapModule {
   }
 
   removeState() {
-    this.arrayOfMarkers.splice(this.removeIndex, 1);
+    this.arrayOfMarkers.splice(this.markerIndex, 1);
   }
   _getCoordinates() {
     return new Promise((resolve, reject) => {

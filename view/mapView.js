@@ -2,7 +2,7 @@ import View from "./view.js";
 
 class MapView extends View {
   markup;
-  removedText;
+  logText;
   prepareMarkerText = this._prepareMarkerText.bind(this);
   showForm = this._showForm.bind(this);
   renderMarker = this._renderMarker.bind(this);
@@ -31,11 +31,6 @@ class MapView extends View {
     });
   }
 
-  saveHoverEventFunction(event) {
-    if (!event.target.closest("div").classList.contains("marker-save")) return;
-    event.target.classList.toggle("marker-hover");
-  }
-
   logsHoverFunction(event) {
     if (!event.target.closest("div").classList.contains("marker")) return;
     event.target.closest("div").classList.toggle("mousehover-map");
@@ -56,9 +51,11 @@ class MapView extends View {
     this._map.on("click", fn);
   }
 
-  addMarkerBoxClickEventHandler(fn) {
+  addMarkerBoxClickEventHandler(...fn) {
     const markerBox = document.querySelector(".map-markers-box");
-    markerBox.addEventListener("click", fn);
+    fn.forEach((fn) => {
+      markerBox.addEventListener("click", fn);
+    });
   }
 
   _prepareMarkerText(event) {
@@ -141,10 +138,23 @@ class MapView extends View {
     });
   }
 
+  _checkIfLogClicked(event) {
+    const logContainer = event.target.closest("div");
+    if (!logContainer) return false;
+    if (!logContainer.classList.contains("marker")) return false;
+    if (event.target.classList.contains("close")) return false;
+    this.logText = logContainer.textContent;
+    return true;
+  }
+
+  _panToMarker(coords) {
+    this._map.panTo(coords);
+  }
+
   _deleteMarkerFromView(event) {
     if (!event.target.closest("i")) return;
     const close = event.target.closest("a");
-    this.removedText = close.querySelector(".marker").textContent;
+    this.logText = close.querySelector(".marker").textContent;
     this._removeText(close);
   }
 

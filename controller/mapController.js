@@ -4,6 +4,7 @@ import mapModule from "../modules/mapModule.js";
 class MapMarkerControl {
   showMapLogs = this._showMapLogs.bind(this);
   deleteMarker = this._deleteMarker.bind(this);
+  moveToMarker = this._moveToMarker.bind(this);
 
   async _showMapLogs() {
     await mapModule.getPosition();
@@ -11,7 +12,7 @@ class MapMarkerControl {
     mapView.renderMap(mapModule.location);
     mapView.addMapClickEventHandler(mapView.prepareMarkerText);
     mapView.addSubmitEventHandler(this.newMarker);
-    mapView.addMarkerBoxClickEventHandler(this.deleteMarker);
+    mapView.addMarkerBoxClickEventHandler(this.deleteMarker, this.moveToMarker);
     mapModule.getLocalStorage();
     mapView.loadSavedArray(mapModule.arrayOfMarkers);
     mapView.addLogsHoverEventHandler(mapView.logsHoverFunction);
@@ -28,11 +29,18 @@ class MapMarkerControl {
   _deleteMarker(event) {
     if (!event.target.closest("i")) return;
     mapView.deleteMarkerFromView(event);
-    mapModule.getIndexToRemove(mapView.removedText);
-    mapModule.getMarkerToRemove();
-    mapView.removeMarker(mapModule.markerToRemove);
+    mapModule.getIndex(mapView.logText);
+    mapModule.getMarker();
+    mapView.removeMarker(mapModule.currentMarker);
     mapModule.removeState();
     mapModule.setLocalStorage();
+  }
+
+  _moveToMarker(event) {
+    if (!mapView._checkIfLogClicked(event)) return;
+    mapModule.getIndex(mapView.logText);
+    mapModule.getMarker();
+    mapView._panToMarker(mapModule.currentMarker._latlng);
   }
 }
 
