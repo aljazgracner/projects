@@ -17,11 +17,12 @@ class TicTacToeControl {
       ticTacToeView.changeActivePlayer(ticTacModule.activePlayer);
       ticTacToeView.addClickEventHandler(this.playTicTac);
     }
-    ticTacToeView.addPlayAgainHoverEvent(ticTacToeView.playAgainHoverFunction);
+    ticTacToeView.addPlayAgainHoverEvent(
+      ticTacToeView.playAgainHoverFunction,
+      this.isMobile
+    );
     ticTacToeView.addPlayAgainClickEvent(this.playAgainTicTac);
-    console.log("pred hover handler");
     ticTacToeView.addHoverHandler(ticTacToeView.hoverFunction, this.isMobile);
-    console.log("po hover handler");
   }
 
   playTicTacToe(clickedBox) {
@@ -44,7 +45,8 @@ class TicTacToeControl {
     );
     ticTacToeView.removeClickEventHandler(this.playTicTac);
     ticTacToeView.addReplayButtonHoverEvent(
-      ticTacToeView.replayButtonHoverFunction
+      ticTacToeView.replayButtonHoverFunction,
+      this.isMobile
     );
     ticTacToeView.addReplayButtonClickEvent(this.replayTicTacToe);
     ticTacToeView.scrollToBottom();

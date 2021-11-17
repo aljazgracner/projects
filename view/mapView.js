@@ -48,7 +48,6 @@ class MapView extends View {
       attribution:
         'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
     }).addTo(this._map);
-    console.log(this.isMobile);
     if (this.isMobile) {
       document.querySelector(".content-container").style.flexDirection =
         "column";

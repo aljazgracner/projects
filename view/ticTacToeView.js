@@ -2,6 +2,7 @@ import View from "./view.js";
 import { timeout } from "../helpers.js";
 
 class TicTacToeView extends View {
+  hoverEvents;
   playAgainButton;
   _renderHTML() {
     const markup = `<div class="tic-tac-toe">
@@ -48,14 +49,12 @@ class TicTacToeView extends View {
     this.hoverEvents = isMobile
       ? ["touchstart", "touchend"]
       : ["mouseover", "mouseout"];
-    console.log(this.hoverEvents);
     this.hoverEvents.forEach((event) =>
       document.querySelector(".tic-tac-toe").addEventListener(event, fn)
     );
   }
 
   hoverFunction(hover) {
-    console.log("se zgodi");
     if (hover.target.closest("div").classList.contains("tic-tac-toe")) return;
     hover.target.closest("div").classList.toggle("mousehover");
   }
@@ -83,7 +82,6 @@ class TicTacToeView extends View {
       left: 0,
       behavior: "smooth",
     });
-    console.log("scroll");
   }
 
   scrollToBottom() {
@@ -98,18 +96,19 @@ class TicTacToeView extends View {
       clickedBox.target
         .closest("div")
         .insertAdjacentHTML("afterbegin", activePlayer);
+      return;
     }
+
     if (replayArray && replay) {
       (async () => {
-        console.log(replayArray);
         [".play-again", ".watch-replay"].forEach((className) => {
           document.querySelector(className).style.display = "none";
         });
         boxNumbers ? this.highlightTicTacBoxOnOff(boxNumbers) : "";
         let crossCircle = "X";
-        for (const x of replayArray) {
-          replay ? await timeout(0.5) : "";
-          const box = document.getElementById(x);
+        for (const marker of replayArray) {
+          await timeout(0.5);
+          const box = document.getElementById(marker);
           if (box.innerHTML == "")
             box.insertAdjacentHTML("afterbegin", crossCircle);
           crossCircle == "X" ? (crossCircle = "O") : (crossCircle = "X");
@@ -119,6 +118,16 @@ class TicTacToeView extends View {
           document.querySelector(className).style.display = null;
         });
       })();
+      return;
+    }
+    if (replayArray && !replay) {
+      let crossCircle = "X";
+      for (const marker of replayArray) {
+        const box = document.getElementById(marker);
+        if (box.innerHTML == "")
+          box.insertAdjacentHTML("afterbegin", crossCircle);
+        crossCircle == "X" ? (crossCircle = "O") : (crossCircle = "X");
+      }
     }
   }
 
@@ -152,11 +161,12 @@ class TicTacToeView extends View {
     this.highlightTicTacBoxOnOff(boxNumbers);
   }
 
-  addReplayButtonHoverEvent(fn) {
+  addReplayButtonHoverEvent(fn, isMobile) {
     const button = document.querySelector(".watch-replay");
-    ["mouseout", "mouseover"].forEach((e) => {
-      button.addEventListener(e, fn);
-    });
+    this.hoverEvents = isMobile
+      ? ["touchstart", "touchend"]
+      : ["mouseover", "mouseout"];
+    this.hoverEvents.forEach((event) => button.addEventListener(event, fn));
   }
 
   replayButtonHoverFunction(event) {
@@ -168,10 +178,13 @@ class TicTacToeView extends View {
     button.addEventListener("click", fn);
   }
 
-  addPlayAgainHoverEvent(fn) {
-    ["mouseout", "mouseover"].forEach((e) => {
-      this.playAgainButton.addEventListener(e, fn);
-    });
+  addPlayAgainHoverEvent(fn, isMobile) {
+    this.hoverEvents = isMobile
+      ? ["touchstart", "touchend"]
+      : ["mouseover", "mouseout"];
+    this.hoverEvents.forEach((event) =>
+      this.playAgainButton.addEventListener(event, fn)
+    );
   }
 
   playAgainHoverFunction(event) {
