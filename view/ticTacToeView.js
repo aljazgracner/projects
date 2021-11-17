@@ -23,11 +23,11 @@ class TicTacToeView extends View {
                 <span class="turn">Active turn</span>
             </div>
             <div class="tic-tac-player-box win-msg"></div>
-            <div class="tic-tac-player-box play"><a href=#>
+            <div class="tic-tac-player-box play">
             <div class="play-again">
                 Reset
             </div>
-        </a></div>
+        </div>
            </div>
         `;
     this._contentContainer.style.flexWrap = "wrap";
@@ -151,11 +151,10 @@ class TicTacToeView extends View {
 
   renderWinner(player, boxNumbers) {
     const markup = `<span class="win-message">${player} wins!</span>
-    <a href=#>
                         <div class="watch-replay">
                             Watch replay
                         </div>
-                    </a>`;
+                    `;
     document.querySelector(".win-msg").insertAdjacentHTML("afterbegin", markup);
 
     this.highlightTicTacBoxOnOff(boxNumbers);
@@ -163,10 +162,10 @@ class TicTacToeView extends View {
 
   addReplayButtonHoverEvent(fn, isMobile) {
     const button = document.querySelector(".watch-replay");
-    this.hoverEvents = isMobile
-      ? ["touchstart", "touchend"]
-      : ["mouseover", "mouseout"];
-    this.hoverEvents.forEach((event) => button.addEventListener(event, fn));
+    if (isMobile) return;
+    ["mouseover", "mouseout"].forEach((event) =>
+      button.addEventListener(event, fn)
+    );
   }
 
   replayButtonHoverFunction(event) {
@@ -179,10 +178,8 @@ class TicTacToeView extends View {
   }
 
   addPlayAgainHoverEvent(fn, isMobile) {
-    this.hoverEvents = isMobile
-      ? ["touchstart", "touchend"]
-      : ["mouseover", "mouseout"];
-    this.hoverEvents.forEach((event) =>
+    if (isMobile) return;
+    ["mouseover", "mouseout"].forEach((event) =>
       this.playAgainButton.addEventListener(event, fn)
     );
   }

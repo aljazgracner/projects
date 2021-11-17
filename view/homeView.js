@@ -3,28 +3,27 @@ import View from "./view.js";
 class HomeView extends View {
   hoverEvents;
   _renderHTML() {
-    const markup = `<a href="#">     
+    const markup = `    
         <div class="home-box">
             <span class="nav-link">Tic Tac Toe</span>
             <i class='bx bx-joystick' ></i>
         </div>
-    </a> 
-    <a href="#"> 
+    
+    
         <div class="home-box"><span class="nav-link">Map Logs</span> 
             <i class='bx bx-map-pin' ></i></div>
-        </a> 
-        <a href="#"></a>
-        <div class="home-box"></div></a> `;
+        
+        
+        <div class="home-box"></div> `;
     this._contentContainer.style.flexWrap = "wrap";
     this._contentContainer.insertAdjacentHTML("afterbegin", markup);
     this._contentContainer.style.flexDirection = null;
   }
 
   addHoverEventHandler(fn, isMobile) {
-    this.hoverEvents = isMobile
-      ? ["touchstart", "touchend"]
-      : ["mouseover", "mouseout"];
-    this.hoverEvents.forEach((event) =>
+    if (isMobile) return;
+
+    ["mouseover", "mouseout"].forEach((event) =>
       this._contentContainer.addEventListener(event, fn)
     );
   }

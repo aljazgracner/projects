@@ -131,8 +131,8 @@ class MapView extends View {
 
   renderText(date) {
     const mapMarkers = document.querySelector(".map-markers-box");
-    const markup = `<a href='#'><div class="marker"><span class="log-text">On ${date} <i class='bx bx-checkbox-minus close' ></i><br>
-    Message: ${this.markup}</span></div></a>`;
+    const markup = `<div class="marker"><span class="log-text">On ${date} <i class='bx bx-checkbox-minus close' ></i><br>
+    Message: ${this.markup}</span></div>`;
     mapMarkers.insertAdjacentHTML("afterbegin", markup);
     this._checkIfMarkerBoxEmpty();
   }
@@ -141,8 +141,8 @@ class MapView extends View {
     if (array.length == 0) return;
     const mapMarkers = document.querySelector(".map-markers-box");
     array.forEach((object) => {
-      const markup = `<a href='#'><div class="marker"><span class="log-text">On ${object.date}<i class='bx bx-checkbox-minus close' ></i><br>
-      Message: ${object.text}</span></div></a>`;
+      const markup = `<div class="marker"><span class="log-text">On ${object.date}<i class='bx bx-checkbox-minus close' ></i><br>
+      Message: ${object.text}</span></div>`;
       mapMarkers.insertAdjacentHTML("afterbegin", markup);
     });
     this._loadSavedMarkers(array);
@@ -182,8 +182,8 @@ class MapView extends View {
 
   _deleteMarkerFromView(event) {
     if (!event.target.closest("i")) return;
-    const close = event.target.closest("a");
-    this.logText = close.querySelector(".marker").textContent;
+    const close = event.target.closest("div");
+    this.logText = close.textContent;
     this._removeText(close);
   }
 

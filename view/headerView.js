@@ -12,7 +12,7 @@ class NavigationView {
   }
 
   hoverFunction(e) {
-    const navLink = e.target.closest("a");
+    const navLink = e.target.closest("span");
     if (!navLink) return;
     navLink.classList.toggle("nav-mousehover");
   }

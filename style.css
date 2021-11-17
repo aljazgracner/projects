@@ -17,13 +17,11 @@ body {
   background-color: rgb(34, 34, 34);
 }
 
-.title a {
+.title .nav-link {
   font-size: 40px;
   color: rgb(226, 233, 253);
-}
-
-.header a {
   transition: 300ms;
+  cursor: pointer;
 }
 
 .header {
@@ -68,6 +66,7 @@ body {
   height: 210px;
   color: rgb(226, 233, 253);
   transition: 500ms;
+  cursor: pointer;
 }
 
 .home-box-hover {
@@ -80,18 +79,15 @@ body {
   transition: 300ms;
   display: inline-block;
   margin-left: 150px;
+  cursor: pointer;
 }
 
-.menu-option a {
+.menu-option {
   color: gray;
 }
 
 .menu-option span {
   color: aliceblue;
-}
-
-.menu a {
-  text-decoration: none;
 }
 
 .mousehover {
@@ -204,9 +200,10 @@ body {
   transition: 300ms;
   color: rgb(226, 233, 253);
   text-decoration: none;
+  cursor: pointer;
 }
 
-a .replay-hover {
+.tic-tac-player-box .replay-hover {
   background: rgb(226, 226, 226);
   color: black;
 }
@@ -223,6 +220,7 @@ a .replay-hover {
   padding-bottom: 5px;
   transition: 300ms;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .leaflet-popup .leaflet-popup-content-wrapper {
@@ -236,9 +234,6 @@ a .replay-hover {
   flex-wrap: wrap;
   overflow-wrap: break-word;
   font-size: 15px;
-}
-a {
-  text-decoration: none;
 }
 
 #map {
@@ -269,6 +264,7 @@ a {
   text-align: center;
   background: rgb(75, 75, 75);
   border-bottom: 1px solid rgb(34, 34, 34);
+  cursor: pointer;
 }
 
 .marker span {
@@ -276,11 +272,11 @@ a {
   margin-right: 5px;
   margin-bottom: 10px;
 }
-a i {
+i {
   font-size: 30px;
 }
 
-a .marker {
+.marker {
   color: rgb(226, 226, 226);
 }
 
