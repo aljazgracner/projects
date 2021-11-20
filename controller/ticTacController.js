@@ -3,29 +3,32 @@ import ticTacModule from "../modules/ticTacModule.js";
 
 class TicTacToeControl {
   isMobile;
+  /**Storing functions to variables to set this keyword to class scope. */
   showTicTac = this.showTicTacToe.bind(this);
-  playTicTac = this.playTicTacToe.bind(this);
+  placeMarkerOnClick = this._placeMarkerOnClick.bind(this);
   replayTicTac = this.replayTicTacToe.bind(this);
-  playAgainTicTac = this.playAgainTicTacToe.bind(this);
+  resetTicTac = this.resetTicTacToe.bind(this);
   loadTicTacStateWithWinner = this.loadTicTacToeStateWithWinner.bind(this);
 
+  /**Renders whole tic tac toe structure, once rendered it checks the module if the game state is fresh, mid-progress or finished and loads the state */
   showTicTacToe() {
     ticTacToeView.renderContent();
     ticTacToeView.loadSave(ticTacModule);
     if (ticTacModule.winner) this.loadTicTacStateWithWinner();
     if (!ticTacModule.winner) {
       ticTacToeView.changeActivePlayer(ticTacModule.activePlayer);
-      ticTacToeView.addClickEventHandler(this.playTicTac);
+      ticTacToeView.addClickEventHandler(this.placeMarkerOnClick);
     }
-    ticTacToeView.addPlayAgainHoverEvent(
-      ticTacToeView.playAgainHoverFunction,
+    ticTacToeView.addResetHoverEvent(
+      ticTacToeView.resetHoverFunction,
       this.isMobile
     );
-    ticTacToeView.addPlayAgainClickEvent(this.playAgainTicTac);
+    ticTacToeView.addResetClickEvent(this.resetTicTac);
     ticTacToeView.addHoverHandler(ticTacToeView.hoverFunction, this.isMobile);
   }
 
-  playTicTacToe(clickedBox) {
+  /**Activates on click while playing. First checks if box is empty, after that checks for winning combination -> renders winner if true, changes active player if false. */
+  _placeMarkerOnClick(clickedBox) {
     if (ticTacToeView.checkIfBoxEmpty(clickedBox)) {
       ticTacToeView.createMark(clickedBox, ticTacModule.activePlayer);
       ticTacModule.updateBoardState(clickedBox);
@@ -37,7 +40,7 @@ class TicTacToeControl {
         ticTacToeView.changeActivePlayer(ticTacModule.activePlayer);
     }
   }
-
+  /**If the game is finished, user clicks on another project and comes back without resetting state, this loads. */
   loadTicTacToeStateWithWinner() {
     ticTacToeView.renderWinner(
       ticTacModule.winner,
@@ -51,7 +54,7 @@ class TicTacToeControl {
     ticTacToeView.addReplayButtonClickEvent(this.replayTicTacToe);
     ticTacToeView.scrollToBottom();
   }
-
+  /** Renders stored sequence of clicks from module to view with 0.5s interval. */
   async replayTicTacToe() {
     ticTacToeView.scrollToTop();
     ticTacToeView.removeMarks(ticTacModule.boardState[2]);
@@ -62,11 +65,11 @@ class TicTacToeControl {
       ticTacModule.winningNumbers
     );
   }
-
-  playAgainTicTacToe() {
+  /**Resets game state in module and updates view. */
+  resetTicTacToe() {
     ticTacToeView.scrollToTop();
     ticTacToeView.removeMarks(ticTacModule.boardState[2]);
-    ticTacToeView.highlightTicTacBoxOnOff(ticTacModule.winningNumbers);
+    ticTacToeView.highLightTicTacBoxToggle(ticTacModule.winningNumbers);
     ticTacModule.resetGameState();
     ticTacToeView.changeActivePlayer(ticTacModule.activePlayer);
     ticTacToeView.addClickEventHandler(this.playTicTac);

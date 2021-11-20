@@ -11,13 +11,20 @@ class MapView extends View {
   deleteMarkerFromView = this._deleteMarkerFromView.bind(this);
   _map;
   currentMarker;
+  emptySidebarMessage = ` <div class="sidebar-empty-message">
+  No saved logs yet. Start by clicking on map <br>
+  <i class='bx bx-map'></i>
+</div>     `;
+  inputForm = `
+        <form class="${this.isMobile ? "form-mobile" : "form"}">
+            <legend>Enter Log</legend>
+            <input class='form' required /><br>
+            <button id="form" type="submit" class="button">Save</button>
+    </form>`;
   _renderHTML() {
     const markup = `
     <div class="map-markers-box">
-        <div class="map-text">
-            No saved logs yet. Start by clicking on map <br>
-            <i class='bx bx-map'></i>
-        </div>     
+        ${this.emptySidebarMessage}   
     </div>
     <div id="map">
     </div>
@@ -26,20 +33,31 @@ class MapView extends View {
     this._contentContainer.insertAdjacentHTML("afterbegin", markup);
   }
 
+  /** Adds hover function.
+   * @param {object} fn - callback function added to eventlistener.
+   * @param {*} isMobile - to determine if applying eventslisteners make sense.
+   */
   addLogsHoverEventHandler(fn, isMobile) {
-    const mapMarkers = document.querySelector(".map-markers-box");
+    const sidebar = document.querySelector(".map-markers-box");
     this.hoverEvents = isMobile
       ? ["touchstart", "touchend"]
       : ["mouseover", "mouseout"];
-    this.hoverEvents.forEach((event) => mapMarkers.addEventListener(event, fn));
+    this.hoverEvents.forEach((event) => sidebar.addEventListener(event, fn));
   }
 
+  /** Hover function for sidebar logs.
+   *@param {object} event - reference to event.
+   */
   logsHoverFunction(event) {
     if (!event.target.closest("div").classList.contains("marker")) return;
     event.target.closest("div").classList.toggle("mousehover-map");
   }
 
+  /** Renders map to view.
+   *@param {object} location - coordinates of user,
+   */
   renderMap(location) {
+    console.log(location);
     this._map = L.map("map").setView(
       [location.latitude, location.longitude],
       15
@@ -57,24 +75,37 @@ class MapView extends View {
     }
   }
 
+  /** Adds click function to map.
+   * @param {object} fn - callback function added to eventlistener.
+   */
   addMapClickEventHandler(fn) {
     this._map.on("click", fn);
   }
 
-  addMarkerBoxClickEventHandler(...fn) {
-    const markerBox = document.querySelector(".map-markers-box");
+  /** Adds sidebar click function.
+   * @param {array} fn - callback functions added to eventlistener.
+   */
+  addSidebarClickEventHandler(...fn) {
+    const sidebar = document.querySelector(".map-markers-box");
     fn.forEach((fn) => {
-      markerBox.addEventListener("click", fn);
+      sidebar.addEventListener("click", fn);
     });
   }
 
+  /** Creates map marker and stores in variable.
+   *@param {object} event - event reference.
+   */
   _prepareMarkerText(event) {
     this.currentMarker = L.marker([event.latlng.lat, event.latlng.lng]);
     this.showForm();
   }
-  _renderMarker(submit) {
+
+  /** Renders marker to view.
+   *@param {object} event - event reference.
+   */
+  _renderMarker(event) {
+    event.preventDefault();
     const markup = document.querySelector("input").value;
-    submit.preventDefault();
     this.markup = markup;
     this.currentMarker
       .addTo(this._map)
@@ -89,64 +120,66 @@ class MapView extends View {
       .openPopup();
     this._hideForm();
   }
+
+  /** Renders log input form to sidebar. */
   _showForm() {
-    const mapMarkers = document.querySelector(".map-markers-box");
-    if (mapMarkers.querySelector(".form")) return;
-    const form = this.isMobile ? "form-mobile" : "form";
-    const markup = `
-        <form class="${form}">
-            <legend>Enter Log</legend>
-            <input class='form' required /><br>
-            <button id="form" type="submit" class="button">Save</button>
-    </form>`;
-    mapMarkers.insertAdjacentHTML("afterbegin", markup);
+    const sidebar = document.querySelector(".map-markers-box");
+    if (sidebar.querySelector(".form")) return;
+    sidebar.insertAdjacentHTML("afterbegin", this.inputForm);
     const inputFocus = document.querySelector("input");
     inputFocus.focus();
   }
 
+  /** Removes log input form from sidebar. */
   _hideForm() {
-    const mapMarkers = document.querySelector(".map-markers-box");
+    const sidebar = document.querySelector(".map-markers-box");
     const form = document.querySelector("form");
-    mapMarkers.removeChild(form);
+    sidebar.removeChild(form);
   }
 
-  _checkIfMarkerBoxEmpty() {
-    const markerBox = document.querySelector(".map-markers-box");
-    const emptyBoxText = document.querySelector(".map-text");
-    if (markerBox.querySelector(".marker") && emptyBoxText)
-      markerBox.removeChild(emptyBoxText);
-    const markup = `<div class="map-text">
-    No saved logs yet. Start by clicking on map <br>
-    <i class='bx bx-map'></i>
-</div> `;
-    if (!markerBox.querySelector(".marker") && !emptyBoxText) {
-      markerBox.insertAdjacentHTML("afterbegin", markup);
+  /** Renders sidebar empty message when no logs on sidebar and vice versa. */
+  _checkIfsidebarEmpty() {
+    const sidebar = document.querySelector(".map-markers-box");
+    const emptyBoxText = document.querySelector(".sidebar-empty-message");
+    //checks if sidebar has rendered logs, removes emptysidebarmessage if true
+    if (sidebar.querySelector(".marker") && emptyBoxText)
+      sidebar.removeChild(emptyBoxText);
+    //checks if sidebar empty, renders emptysidebarmessage if true.
+    if (!sidebar.querySelector(".marker") && !emptyBoxText) {
+      sidebar.insertAdjacentHTML("afterbegin", this.emptySidebarMessage);
     }
   }
 
+  /** Adds sidebar submit function.
+   * @param {array} fn - callback function added to eventlistener.
+   */
   addSubmitEventHandler(fn) {
-    const mapMarkers = document.querySelector(".map-markers-box");
-    mapMarkers.addEventListener("submit", fn);
+    const sidebar = document.querySelector(".map-markers-box");
+    sidebar.addEventListener("submit", fn);
   }
 
+  /** Renders log message to sidebar.
+   *@param {}
+   */
   renderText(date) {
-    const mapMarkers = document.querySelector(".map-markers-box");
+    console.log(date);
+    const sidebar = document.querySelector(".map-markers-box");
     const markup = `<div class="marker"><span class="log-text">On ${date} <i class='bx bx-checkbox-minus close' ></i><br>
     Message: ${this.markup}</span></div>`;
-    mapMarkers.insertAdjacentHTML("afterbegin", markup);
-    this._checkIfMarkerBoxEmpty();
+    sidebar.insertAdjacentHTML("afterbegin", markup);
+    this._checkIfsidebarEmpty();
   }
 
   loadSavedArray(array) {
     if (array.length == 0) return;
-    const mapMarkers = document.querySelector(".map-markers-box");
+    const sidebar = document.querySelector(".map-markers-box");
     array.forEach((object) => {
       const markup = `<div class="marker"><span class="log-text">On ${object.date}<i class='bx bx-checkbox-minus close' ></i><br>
       Message: ${object.text}</span></div>`;
-      mapMarkers.insertAdjacentHTML("afterbegin", markup);
+      sidebar.insertAdjacentHTML("afterbegin", markup);
     });
     this._loadSavedMarkers(array);
-    this._checkIfMarkerBoxEmpty();
+    this._checkIfsidebarEmpty();
   }
 
   _loadSavedMarkers(array) {
@@ -188,14 +221,14 @@ class MapView extends View {
   }
 
   _removeText(element) {
-    const markerBox = document.querySelector(".map-markers-box");
-    markerBox.removeChild(element);
+    const sidebar = document.querySelector(".map-markers-box");
+    sidebar.removeChild(element);
   }
 
   removeMarker(marker) {
     if (!marker) return;
     marker.remove();
-    this._checkIfMarkerBoxEmpty();
+    this._checkIfsidebarEmpty();
   }
 }
 

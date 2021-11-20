@@ -2,6 +2,7 @@ import View from "./view.js";
 
 class HomeView extends View {
   hoverEvents;
+  /** Renders homepage. */
   _renderHTML() {
     const markup = `    
         <div class="home-box">
@@ -20,6 +21,10 @@ class HomeView extends View {
     this._contentContainer.style.flexDirection = null;
   }
 
+  /** Adds hover event function to project buttons.
+   * @param {object} fn - callback function added to eventlistener.
+   * @param {boolean} isMobile - to determine if applying eventslisteners make sense.
+   */
   addHoverEventHandler(fn, isMobile) {
     if (isMobile) return;
 
@@ -28,16 +33,26 @@ class HomeView extends View {
     );
   }
 
-  hoverFunction(e) {
-    const homeOption = e.target.closest("div");
+  /** Hover function for project buttons
+   * @param {object} event - event reference.
+   */
+  hoverFunction(event) {
+    const homeOption = event.target.closest("div");
     if (!homeOption.classList.contains("home-box")) return;
     homeOption.classList.toggle("home-box-hover");
   }
 
+  /** Adds click event function to project buttons.
+   * @param {object} fn - callback function added to eventlistener.
+   */
   addClickEventHandler(fn) {
     this._contentContainer.addEventListener("click", fn);
   }
 
+  /** Checks which project user clicked.
+   * @param {object} event - event reference.
+   * @returns {string} - name of clicked project.
+   */
   checkClickedOption(event) {
     const click = event.target.closest("div");
     if (!click.classList.contains("home-box")) return;

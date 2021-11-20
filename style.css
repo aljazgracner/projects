@@ -22,6 +22,7 @@ body {
   color: rgb(226, 233, 253);
   transition: 300ms;
   cursor: pointer;
+  user-select: none;
 }
 
 .header {
@@ -47,7 +48,7 @@ body {
   font-size: 110px;
 }
 
-.nav-mousehover {
+.header-mousehover {
   opacity: 0.5;
 }
 
@@ -284,7 +285,7 @@ i {
   margin-top: 10px;
 }
 
-.map-text {
+.sidebar-empty-message {
   margin-right: 5px;
   margin-left: 5px;
   font-size: 20px;
