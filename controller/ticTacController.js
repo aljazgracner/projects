@@ -46,7 +46,7 @@ class TicTacToeControl {
       ticTacModule.winner,
       ticTacModule.winningNumbers
     );
-    ticTacToeView.removeClickEventHandler(this.playTicTac);
+    ticTacToeView.removeClickEventHandler(this.placeMarkerOnClick);
     ticTacToeView.addReplayButtonHoverEvent(
       ticTacToeView.replayButtonHoverFunction,
       this.isMobile
@@ -72,7 +72,7 @@ class TicTacToeControl {
     ticTacToeView.highLightTicTacBoxToggle(ticTacModule.winningNumbers);
     ticTacModule.resetGameState();
     ticTacToeView.changeActivePlayer(ticTacModule.activePlayer);
-    ticTacToeView.addClickEventHandler(this.playTicTac);
+    ticTacToeView.addClickEventHandler(this.placeMarkerOnClick);
     ticTacToeView.removeButtons();
   }
 }

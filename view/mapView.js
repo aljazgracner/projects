@@ -23,7 +23,7 @@ class MapView extends View {
     </form>`;
   _renderHTML() {
     const markup = `
-    <div class="map-markers-box">
+    <div class="sidebar-box">
         ${this.emptySidebarMessage}   
     </div>
     <div id="map">
@@ -38,7 +38,7 @@ class MapView extends View {
    * @param {*} isMobile - to determine if applying eventslisteners make sense.
    */
   addLogsHoverEventHandler(fn, isMobile) {
-    const sidebar = document.querySelector(".map-markers-box");
+    const sidebar = document.querySelector(".sidebar-box");
     this.hoverEvents = isMobile
       ? ["touchstart", "touchend"]
       : ["mouseover", "mouseout"];
@@ -66,13 +66,18 @@ class MapView extends View {
       attribution:
         'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
     }).addTo(this._map);
-    if (this.isMobile) {
-      document.querySelector(".content-container").style.flexDirection =
-        "column";
-      document.querySelector("#map").style.height = "70%";
-      document.querySelector(".map-markers-box").style.height = "30%";
-      document.querySelector(".map-markers-box").style.width = "100%";
-    }
+    this._mobileStyles(this.isMobile);
+  }
+
+  /** Creates css styling for mobile devices.
+   *@param {boolean} isMobile - whether user is on mobile or not.
+   */
+  _mobileStyles(isMobile) {
+    if (!isMobile) return;
+    document.querySelector(".content-container").style.flexDirection = "column";
+    document.querySelector("#map").style.height = "70%";
+    document.querySelector(".sidebar-box").style.height = "30%";
+    document.querySelector(".sidebar-box").style.width = "100%";
   }
 
   /** Adds click function to map.
@@ -86,7 +91,7 @@ class MapView extends View {
    * @param {array} fn - callback functions added to eventlistener.
    */
   addSidebarClickEventHandler(...fn) {
-    const sidebar = document.querySelector(".map-markers-box");
+    const sidebar = document.querySelector(".sidebar-box");
     fn.forEach((fn) => {
       sidebar.addEventListener("click", fn);
     });
@@ -123,7 +128,7 @@ class MapView extends View {
 
   /** Renders log input form to sidebar. */
   _showForm() {
-    const sidebar = document.querySelector(".map-markers-box");
+    const sidebar = document.querySelector(".sidebar-box");
     if (sidebar.querySelector(".form")) return;
     sidebar.insertAdjacentHTML("afterbegin", this.inputForm);
     const inputFocus = document.querySelector("input");
@@ -132,14 +137,14 @@ class MapView extends View {
 
   /** Removes log input form from sidebar. */
   _hideForm() {
-    const sidebar = document.querySelector(".map-markers-box");
+    const sidebar = document.querySelector(".sidebar-box");
     const form = document.querySelector("form");
     sidebar.removeChild(form);
   }
 
   /** Renders sidebar empty message when no logs on sidebar and vice versa. */
   _checkIfsidebarEmpty() {
-    const sidebar = document.querySelector(".map-markers-box");
+    const sidebar = document.querySelector(".sidebar-box");
     const emptyBoxText = document.querySelector(".sidebar-empty-message");
     //checks if sidebar has rendered logs, removes emptysidebarmessage if true
     if (sidebar.querySelector(".marker") && emptyBoxText)
@@ -154,25 +159,28 @@ class MapView extends View {
    * @param {array} fn - callback function added to eventlistener.
    */
   addSubmitEventHandler(fn) {
-    const sidebar = document.querySelector(".map-markers-box");
+    const sidebar = document.querySelector(".sidebar-box");
     sidebar.addEventListener("submit", fn);
   }
 
   /** Renders log message to sidebar.
-   *@param {}
+   *@param {string} date - date/time of log.
    */
   renderText(date) {
-    console.log(date);
-    const sidebar = document.querySelector(".map-markers-box");
+    console.log(typeof date);
+    const sidebar = document.querySelector(".sidebar-box");
     const markup = `<div class="marker"><span class="log-text">On ${date} <i class='bx bx-checkbox-minus close' ></i><br>
     Message: ${this.markup}</span></div>`;
     sidebar.insertAdjacentHTML("afterbegin", markup);
     this._checkIfsidebarEmpty();
   }
 
+  /** Renders logs to sidebar.
+   *@param {array} array - array of objects.
+   */
   loadSavedArray(array) {
     if (array.length == 0) return;
-    const sidebar = document.querySelector(".map-markers-box");
+    const sidebar = document.querySelector(".sidebar-box");
     array.forEach((object) => {
       const markup = `<div class="marker"><span class="log-text">On ${object.date}<i class='bx bx-checkbox-minus close' ></i><br>
       Message: ${object.text}</span></div>`;
@@ -182,6 +190,9 @@ class MapView extends View {
     this._checkIfsidebarEmpty();
   }
 
+  /** Renders markers from array to map.
+   *@param {array} array - array of objects.
+   */
   _loadSavedMarkers(array) {
     array.forEach((object) => {
       const newMarker = L.marker([object.marker.lat, object.marker.lng]);
@@ -199,6 +210,10 @@ class MapView extends View {
     });
   }
 
+  /** Checks if user clicked on actual log on sidebar.
+   *@param {object} event - event reference.
+   *@returns {boolean}
+   */
   _checkIfLogClicked(event) {
     const logContainer = event.target.closest("div");
     if (!logContainer) return false;
@@ -208,24 +223,34 @@ class MapView extends View {
     return true;
   }
 
+  /** Pans map view to marker referenced by clicked log on sidebar and opens its popup.
+   * @param {object} marker - map marker.
+   */
   _panToMarker(marker) {
     this._map.panTo(marker._latlng);
     marker.openPopup();
   }
 
+  /** Removes marker from map view referenced by clicked log on sidebar.
+   * @param {object} event - event reference.
+   */
   _deleteMarkerFromView(event) {
     if (!event.target.closest("i")) return;
-    const close = event.target.closest("div");
-    this.logText = close.textContent;
-    this._removeText(close);
+    const clickedLog = event.target.closest("div");
+    this.logText = clickedLog.textContent;
+    this._removeText(clickedLog);
   }
 
+  /** Removes log text from sidebar view.
+   * @param {object} element - whole html <div> element of sidebar log.
+   */
   _removeText(element) {
-    const sidebar = document.querySelector(".map-markers-box");
+    const sidebar = document.querySelector(".sidebar-box");
     sidebar.removeChild(element);
   }
 
   removeMarker(marker) {
+    console.log(marker);
     if (!marker) return;
     marker.remove();
     this._checkIfsidebarEmpty();
