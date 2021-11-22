@@ -179,6 +179,7 @@ class TicTacToeView extends View {
   }
   /** Changes color of winning tic tac tiles. */
   highLightTicTacBoxToggle(boxNumbers) {
+    if (!boxNumbers) return;
     boxNumbers.forEach((number) => {
       document.getElementById(number).classList.toggle("win-color");
     });

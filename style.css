@@ -96,6 +96,7 @@ body {
 }
 
 .content-container {
+  user-select: none;
   align-items: center;
   overflow-y: auto;
   overflow-x: hidden;
