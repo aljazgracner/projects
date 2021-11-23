@@ -33,7 +33,6 @@ class WeatherController {
   }
 
   resetBackToForm() {
-    console.log("happens");
     weatherView.removeContent();
     weatherModel.removeState();
     this.showWeatherForm();

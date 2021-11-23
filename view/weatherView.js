@@ -62,7 +62,6 @@ class WeatherView extends View {
           ? this.selectedOptions.push(option.textContent)
           : this.selectedOptions.push(false);
       });
-      console.log(this.selectedOptions);
     } catch (err) {
       throw err.message;
     }
