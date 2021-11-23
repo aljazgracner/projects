@@ -41,6 +41,7 @@ body {
   display: flex;
   justify-content: space-around;
   flex-basis: 30px;
+  min-height: 30px;
   width: 100%;
   border-top: 1px solid black;
 }
@@ -425,6 +426,7 @@ input {
   border-radius: 20px;
   cursor: pointer;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .clicked {
