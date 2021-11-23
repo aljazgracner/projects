@@ -14,7 +14,7 @@ class Marker {
   }
 }
 
-class MapModule {
+class MapModel {
   setLocalStorage = this._setLocalStorage.bind(this);
   arrayOfMarkers = [];
   location = {
@@ -110,6 +110,6 @@ class MapModule {
   }
 }
 
-const mapModule = new MapModule();
+const mapModel = new MapModel();
 
-export default mapModule;
+export default mapModel;

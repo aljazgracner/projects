@@ -2,7 +2,8 @@ import ticTacController from "./ticTacController.js";
 import mapController from "./mapController.js";
 import headerView from "../view/headerView.js";
 import homeView from "../view/homeView.js";
-import homeModule from "../modules/homeModule.js";
+import homeModel from "../model/homeModel.js";
+import weatherController from "./weatherController.js";
 
 class HomeController {
   isMobile;
@@ -16,7 +17,7 @@ class HomeController {
     mapController.isMobile =
       ticTacController.isMobile =
       this.isMobile =
-        homeModule.checkForMobile();
+        homeModel.checkForMobile();
     homeView.renderContent();
     /**Adds hover/click events to homepage. */
     homeView.addHoverEventHandler(homeView.hoverFunction, this.isMobile);
@@ -40,6 +41,7 @@ class HomeController {
       ? ticTacController.showTicTacToe()
       : "";
     this.currentOption === "Map Logs" ? mapController.showMapLogs() : "";
+    this.currentOption === "Weather" ? weatherController.showWeatherForm() : "";
   }
 }
 

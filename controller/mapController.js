@@ -1,5 +1,5 @@
 import mapView from "../view/mapView.js";
-import mapModule from "../modules/mapModule.js";
+import mapModel from "../model/mapModel.js";
 
 class MapLogsControl {
   isMobile;
@@ -11,11 +11,11 @@ class MapLogsControl {
   /**Renders whole MapLogs structure to user. Before rendering it waits for geolocation api to finish fetching user coords. Then checks for local storage and renders saved logs/markers.*/
   async _showMapLogs() {
     mapView.isMobile = this.isMobile;
-    await mapModule.getPosition();
+    await mapModel.getPosition();
     mapView.renderContent();
-    mapView.renderMap(mapModule.location);
-    mapModule.getLocalStorage();
-    mapView.loadSavedArray(mapModule.arrayOfMarkers);
+    mapView.renderMap(mapModel.location);
+    mapModel.getLocalStorage();
+    mapView.loadSavedArray(mapModel.arrayOfMarkers);
     /**Adds all necessary event handlers */
     mapView.addMapClickEventHandler(mapView.prepareMarkerText);
     mapView.addSubmitEventHandler(this.newMarker);
@@ -27,10 +27,10 @@ class MapLogsControl {
    * */
   newMarker(event) {
     mapView.renderMarker(event);
-    mapModule.getDate();
-    mapView.renderText(mapModule.date);
-    mapModule.getState(mapView);
-    mapModule.setLocalStorage();
+    mapModel.getDate();
+    mapView.renderText(mapModel.date);
+    mapModel.getState(mapView);
+    mapModel.setLocalStorage();
   }
 
   /** Deletes marker when delete log icon is clicked and saves state to local storage.
@@ -39,18 +39,18 @@ class MapLogsControl {
   _deleteMarker(event) {
     if (!event.target.closest("i")) return;
     mapView.deleteMarkerFromView(event);
-    mapModule.getIndex(mapView.logText);
-    mapModule.getMarker();
-    mapView.removeMarker(mapModule.currentMarker);
-    mapModule.removeState();
-    mapModule.setLocalStorage();
+    mapModel.getIndex(mapView.logText);
+    mapModel.getMarker();
+    mapView.removeMarker(mapModel.currentMarker);
+    mapModel.removeState();
+    mapModel.setLocalStorage();
   }
   /**When user clicks on sidebar log, map pans to selected marker. */
   _moveToMarker(event) {
     if (!mapView._checkIfLogClicked(event)) return;
-    mapModule.getIndex(mapView.logText);
-    mapModule.getMarker();
-    mapView._panToMarker(mapModule.currentMarker);
+    mapModel.getIndex(mapView.logText);
+    mapModel.getMarker();
+    mapView._panToMarker(mapModel.currentMarker);
   }
 }
 

@@ -4,18 +4,19 @@ class HomeView extends View {
   hoverEvents;
   /** Renders homepage. */
   _renderHTML() {
-    const markup = `    
-        <div class="home-box">
-            <span class="nav-link">Tic Tac Toe</span>
-            <i class='bx bx-joystick' ></i>
-        </div>
-    
-    
-        <div class="home-box"><span class="nav-link">Map Logs</span> 
-            <i class='bx bx-map-pin' ></i></div>
-        
-        
-        <div class="home-box"></div> `;
+    const markup = `<div class="home-box">
+    <span class="nav-link">Tic Tac Toe</span>
+    <i class="bx bx-joystick"></i>
+  </div>
+  
+  <div class="home-box">
+    <span class="nav-link">Map Logs</span> <i class="bx bx-map-pin"></i>
+  </div>
+  
+  <div class="home-box">
+    <span class="nav-link">Weather</span> <i class="bx bx-sun"></i>
+  </div>
+  `;
     this._contentContainer.style.flexWrap = "wrap";
     this._contentContainer.insertAdjacentHTML("afterbegin", markup);
     this._contentContainer.style.flexDirection = null;

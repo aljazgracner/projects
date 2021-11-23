@@ -1,4 +1,4 @@
-class HomeModule {
+class HomeModel {
   isMobile;
   /** Checks user viewport width
    * @param {boolean} - true if mobile device.
@@ -8,6 +8,6 @@ class HomeModule {
   }
 }
 
-const homeModule = new HomeModule();
+const homeModel = new HomeModel();
 
-export default homeModule;
+export default homeModel;

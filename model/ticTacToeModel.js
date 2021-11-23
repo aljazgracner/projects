@@ -1,4 +1,4 @@
-class Module {
+class TicTacToeModel {
   activePlayer = "X";
   winner;
   winningNumbers = "";
@@ -69,6 +69,6 @@ class Module {
   }
 }
 
-const ticTacModule = new Module();
+const ticTacToeModel = new TicTacToeModel();
 
-export default ticTacModule;
+export default ticTacToeModel;
