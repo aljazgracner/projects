@@ -1,20 +1,20 @@
 import View from "./view.js";
 
 class WeatherView extends View {
-  weatherOptionsBox;
+  weatherOptionsUnits = ["", "", "°C", "%", "(latitude, longitude)", "mbar"];
   selectedOptions = [];
   weatherOptions = [
-    "Weather description",
-    "Country",
+    "Weather",
+    "Country code",
     "Temperature",
     "Humidity",
     "Coordinates",
-    "Pressure",
+    "Atmospheric pressure",
   ];
   _renderHTML() {
     const markup = ` <div class="weather-container"> 
     <form class="weather-input">
-    <label>Name of city:</label>
+    <label>City:</label>
     <input type="text" class="weather-input-box" />
     <div>What do you want to see?</div>
     <div class="weather-options">
@@ -42,8 +42,8 @@ class WeatherView extends View {
     click.classList.toggle("clicked");
   }
 
-  removeWeatherForm() {
-    document.querySelector(".weather-container").innerHTML = "";
+  removeContent() {
+    this._contentContainer.innerHTML = "";
   }
 
   checkFormFields() {
@@ -55,6 +55,14 @@ class WeatherView extends View {
         ![...allOptions].some((option) => option.classList.contains("clicked"))
       )
         throw new Error("No options selected. Please select some :)");
+      this.selectedOptions = [];
+      this.city = document.querySelector(".weather-input-box").value;
+      [...allOptions].forEach((option) => {
+        option.classList.contains("clicked")
+          ? this.selectedOptions.push(option.textContent)
+          : this.selectedOptions.push(false);
+      });
+      console.log(this.selectedOptions);
     } catch (err) {
       throw err.message;
     }
@@ -87,14 +95,44 @@ class WeatherView extends View {
     document.querySelector(".weather-container").classList.remove("blur");
   }
 
-  renderResults() {
-    const markup = `<div id="city">
+  renderResults(weatherInfo) {
+    this.removeContent();
+    const city = this.city.charAt(0).toUpperCase() + this.city.slice(1);
+    const markup = `<div class="weather-container"> 
+    <div id="city">
     <i class='bx bx-arrow-back'></i>
-    Results for city:</div>
-    <div class="weather-results"> <div class="selected-option">ffff</div>
-    <div class="selected-option">ffff</div>
-    <div class="selected-option">ffff</div>
-    </div>`;
+    Results for ${city}:</div>
+    <div class="weather-results">
+    ${weatherInfo
+      .map((property) => {
+        const index = weatherInfo.indexOf(property);
+        if (!this.selectedOptions[index]) return;
+        return `<div class="selected-option">${this.selectedOptions[index]}: ${property} ${this.weatherOptionsUnits[index]}</div>`;
+      })
+      .join("")}
+    </div></div>`;
+    this._contentContainer.insertAdjacentHTML("afterbegin", markup);
+  }
+
+  addResetEventHandler(fn) {
+    document.querySelector(".bx-arrow-back").addEventListener("click", fn);
+  }
+
+  addHoverEventHandler(fn) {
+    ["mouseover", "mouseout"].forEach((event) =>
+      document.querySelector(".weather-container").addEventListener(event, fn)
+    );
+  }
+
+  hoverFunction(event) {
+    const hover = event.target.closest("div");
+    if (
+      !hover.classList.contains("weather-option") &&
+      !hover.classList.contains("weather-submit") &&
+      !hover.classList.contains("selected-option")
+    )
+      return;
+    hover.classList.toggle("mousehover");
   }
 }
 

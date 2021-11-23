@@ -14,7 +14,8 @@ class HomeController {
 
   constructor() {
     /**When website is opened, module first checks if user is on mobile device. After that homepage is rendered. */
-    mapController.isMobile =
+    weatherController.isMobile =
+      mapController.isMobile =
       ticTacController.isMobile =
       this.isMobile =
         homeModel.checkForMobile();
